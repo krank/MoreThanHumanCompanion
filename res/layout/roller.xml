@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent" >
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+				  android:orientation="vertical"
+				  android:layout_width="fill_parent"
+				  android:layout_height="fill_parent"
+	>
+		<TextView
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/parameters"
+			style="?android:attr/listSeparatorTextViewStyle"
+		/>
+		<LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+		>
+			<LinearLayout
+				android:orientation="vertical"
+				android:layout_width="0dp"
+				android:layout_weight="1"
+				android:layout_height="wrap_content"
+			>
+			
+				<TextView
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:padding="10dp"
+					android:text="@string/value"
+				/>
+			
+				<SeekBar
+					android:id="@+id/roller_value_seekbar"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_vertical"
+				/>
+		
+			</LinearLayout>
+		
+			<EditText
+				android:id="@+id/roller_value_textview"
+				android:layout_width="64sp"
+				android:layout_height="64sp"
+				android:inputType="number"
+				android:maxLength="2"
+				android:textSize="32sp"
+			/>
+		</LinearLayout>
+	
+		<LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+		>
+			<LinearLayout
+				android:orientation="vertical"
+				android:layout_width="0dp"
+				android:layout_weight="1"
+				android:layout_height="wrap_content"
+			>
+			
+				<TextView
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:padding="10dp"
+					android:text="@string/threshold"
+				/>
+			
+				<SeekBar
+					android:id="@+id/roller_threshold_seekbar"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_vertical"
+				/>
+		
+			</LinearLayout>
+		
+			<EditText
+				android:id="@+id/roller_threshold_textview"
+				android:layout_width="64sp"
+				android:layout_height="64sp"
+				android:inputType="number"
+				android:maxLength="2"
+				android:textSize="32sp"
+			/>
+		</LinearLayout>
+	
+		<TextView
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/advanced"
+			style="?android:attr/listSeparatorTextViewStyle"
+		/>
+	
+		<CheckBox
+			android:id="@+id/roller_luck_checkbox"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/use_luck"
+			android:checked="true"
+		/>
+	
+		<TextView
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/getresults"
+			style="?android:attr/listSeparatorTextViewStyle"
+		/>
+	
+		<Button
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/roll"
+			android:layout_margin="10dp"
+		/>
+		
+		<TextView
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:text="13 SUCCESS"
+			android:textSize="40sp"
+			android:paddingBottom="10dp"
+			android:gravity="center_horizontal"
+		/>
+	
+		<LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+		>
+			<TextView
+				android:layout_width="0dp"
+				android:layout_weight="1"
+				android:layout_height="wrap_content"
+				android:padding="10dp"
+				android:gravity="center_horizontal"
+				android:background="#ff000000"
+				android:textColor="#ffffffff"
+				android:text="13"
+				
+			/>
+			<TextView
+				android:layout_width="0dp"
+				android:layout_weight="1"
+				android:layout_height="wrap_content"
+				android:padding="10dp"
+				android:gravity="center_horizontal"
+				android:text="2"
+			/>			
+		
+		</LinearLayout>
+	</LinearLayout>
+
+</ScrollView>

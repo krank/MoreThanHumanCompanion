@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">&gt;Human Companion</string>
+	
+	<string name="parameters">Parameters</string>
+	<string name="value">Value</string>
+	<string name="threshold">Threshold</string>
+	<string name="advanced">Advanced</string>
+	<string name="use_luck">Use "Luck" rule</string>
+	<string name="roll">Roll</string>
+	<string name="getresults">Get results</string>
+</resources>
