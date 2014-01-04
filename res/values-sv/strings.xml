@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">&gt;Human Companion</string>
+	
+	<string name="parameters">Parametrar</string>
+	<string name="value">Värde</string>
+	<string name="threshold">Tröskel</string>
+	<string name="advanced">Avancerat</string>
+	<string name="use_luck">Använd "tur"-regeln</string>
+	<string name="roll">Rulla</string>
+	<string name="getresults">Resultat</string>
+	
+	<string name="fail">Misslyckat</string>
+	<string name="success">Lyckat</string>
+	<string name="double_success">2x Lyckat</string>
+	
+	<string name="settings">Inställningar</string>
+</resources>

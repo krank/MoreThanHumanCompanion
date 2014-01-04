@@ -10,5 +10,9 @@
 	<string name="roll">Roll</string>
 	<string name="getresults">Get results</string>
 	
+	<string name="fail">Fail</string>
+	<string name="success">Success</string>
+	<string name="double_success">2x Success</string>
+	
 	<string name="settings">Settings</string>
 </resources>

@@ -101,6 +101,7 @@
 		/>
 	
 		<Button
+			android:id="@+id/roller_button"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
 			android:text="@string/roll"
@@ -108,6 +109,7 @@
 		/>
 		
 		<TextView
+			android:id="@+id/roller_result"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
 			android:textSize="40sp"
