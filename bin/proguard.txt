@@ -1,3 +1,6 @@
-# view AndroidManifest.xml #generated:14
+# view AndroidManifest.xml #generated:16
 -keep class com.urverkspel.humancompanion.MainActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:23
+-keep class com.urverkspel.humancompanion.SettingsActivity { <init>(...); }
 

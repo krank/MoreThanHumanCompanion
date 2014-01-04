@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<PreferenceCategory 
+		android:title="Advanced rules"
+		android:key="pref_key_storage_settings">
+		<CheckBoxPreference
+			android:key="pref_use_luck"
+			android:title="@string/use_luck"
+			android:defaultValue="true"
+		/>
+	</PreferenceCategory>
+</PreferenceScreen>
