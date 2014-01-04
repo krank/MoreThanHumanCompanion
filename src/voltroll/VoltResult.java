@@ -26,7 +26,7 @@ public class VoltResult {
 	}
 
 	public VoltResult(int level, int threshold, Boolean useLuck, int blackValue, int whiteValue) {
-
+		
 		// Create dice & roll them
 		white = new VoltDice("white", whiteValue);
 		black = new VoltDice("black", blackValue);

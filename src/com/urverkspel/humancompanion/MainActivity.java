@@ -2,7 +2,9 @@ package com.urverkspel.humancompanion;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -32,8 +34,22 @@ public class MainActivity extends Activity {
 
 	private Button rollButton;
 
-	private final int DEFAULT_VALUE = 9;
-	private final int DEFAULT_THRESHOLD = 0;
+	static final int DEFAULT_VALUE = 9;
+	static final int DEFAULT_THRESHOLD = 0;
+
+	static final String PREF_USELUCK = "pref_use_luck";
+
+	static final String STATE_WHITE = "whiteValue";
+	static final String STATE_BLACK = "blackValue";
+	static final String STATE_USEDLUCK = "usedLuck";
+	static final String STATE_VALUE = "value";
+	static final String STATE_THRESHOLD = "threshold";
+
+	private Boolean lastRollUsedLuck;
+	private int lastValue;
+	private int lastThreshold;
+
+	SharedPreferences prefs;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -76,32 +92,48 @@ public class MainActivity extends Activity {
 		thresholdEditText.setText(String.valueOf(DEFAULT_THRESHOLD));
 		thresholdSeekBar.setProgress(DEFAULT_THRESHOLD);
 
+		// Get shared preferences
+		prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+		// Set default preferences
+		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+
 	}
 
 	private class RollClicker implements View.OnClickListener {
 
 		public void onClick(View v) {
+
+			// Get Luck preference
+			thisActivity.lastRollUsedLuck = prefs.getBoolean(PREF_USELUCK, true);
+
 			// Get value and threshold
-			int level = Integer.valueOf(thisActivity.valueEditText.getText().toString());
-			int threshold = Integer.valueOf(thisActivity.thresholdEditText.getText().toString());
+			thisActivity.lastValue = Integer.valueOf(thisActivity.valueEditText.getText().toString());
+			thisActivity.lastThreshold = Integer.valueOf(thisActivity.thresholdEditText.getText().toString());
 
-			VoltResult vr = new VoltResult(level, threshold);
+			VoltResult vr = new VoltResult(thisActivity.lastValue,
+					thisActivity.lastThreshold,
+					thisActivity.lastRollUsedLuck);
 
-			thisActivity.blackTextView.setText(String.valueOf(vr.black.value));
-			thisActivity.whiteTextView.setText(String.valueOf(vr.white.value));
-
-			String post;
-			if (vr.bothSuccessful) {
-				post = thisActivity.getString(R.string.double_success);
-			} else if (vr.successful) {
-				post = thisActivity.getString(R.string.success);
-			} else {
-				post = thisActivity.getString(R.string.fail);
-			}
-
-			thisActivity.resultTextView.setText(vr.result + " " + post);
-
+			thisActivity.displayRollResult(vr);
 		}
+	}
+
+	private void displayRollResult(VoltResult vr) {
+
+		thisActivity.blackTextView.setText(String.valueOf(vr.black.value));
+		thisActivity.whiteTextView.setText(String.valueOf(vr.white.value));
+
+		String post;
+		if (vr.bothSuccessful) {
+			post = thisActivity.getString(R.string.double_success);
+		} else if (vr.successful) {
+			post = thisActivity.getString(R.string.success);
+		} else {
+			post = thisActivity.getString(R.string.fail);
+		}
+
+		thisActivity.resultTextView.setText(vr.result + " " + post);
 	}
 
 	private class SeekListener implements OnSeekBarChangeListener {
@@ -176,4 +208,44 @@ public class MainActivity extends Activity {
 		}
 
 	}
+
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+		if (thisActivity.whiteTextView.length() > 0) {
+			// Save white and black results
+			savedInstanceState.putInt(STATE_BLACK, Integer.valueOf(thisActivity.blackTextView.getText().toString()));
+			savedInstanceState.putInt(STATE_WHITE, Integer.valueOf(thisActivity.whiteTextView.getText().toString()));
+
+			// Save wether roll used luck
+			savedInstanceState.putBoolean(STATE_USEDLUCK, thisActivity.lastRollUsedLuck);
+
+			// Save value and threshold
+			savedInstanceState.putInt(STATE_VALUE, thisActivity.lastValue);
+			savedInstanceState.putInt(STATE_THRESHOLD, thisActivity.lastThreshold);
+		}
+
+		super.onSaveInstanceState(savedInstanceState);
+	}
+
+	@Override
+	public void onRestoreInstanceState(Bundle savedInstanceState) {
+		if (savedInstanceState.containsKey(STATE_BLACK)) {
+
+			int black = savedInstanceState.getInt(STATE_BLACK);
+			int white = savedInstanceState.getInt(STATE_WHITE);
+
+			thisActivity.lastValue = savedInstanceState.getInt(STATE_VALUE);
+			thisActivity.lastThreshold = savedInstanceState.getInt(STATE_THRESHOLD);
+			thisActivity.lastRollUsedLuck = savedInstanceState.getBoolean(STATE_USEDLUCK);
+
+			VoltResult vr = new VoltResult(thisActivity.lastValue,
+					thisActivity.lastThreshold,
+					thisActivity.lastRollUsedLuck,
+					black,
+					white);
+
+			thisActivity.displayRollResult(vr);
+		}
+	}
+
 }
