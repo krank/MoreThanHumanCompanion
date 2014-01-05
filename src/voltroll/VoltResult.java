@@ -41,7 +41,7 @@ public class VoltResult {
 		}
 
 		if (black.value == 20 && useLuck) {
-			result = maxResult(level, white.value);
+			result = maxResult(white.value, level);
 			successful = false;
 		} else if (black.success && white.success) {
 			result = Math.max(
