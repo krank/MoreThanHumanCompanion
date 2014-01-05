@@ -35,7 +35,7 @@ public class VoltResult {
 		for (VoltDice d : vd) {
 			d.success = (d.value > threshold) // value is > threshold
 					// Is true if d.value is below level, or black is 1, or if luck rule isn't in effect
-					&& (d.value <= level || black.value == 1 || !useLuck)
+					&& (d.value <= level || black.value == 1 && !d.equals(black) || !useLuck)
 					// Is true if d.value is below level or luck rule is in effect
 					&& (d.value <= level || useLuck); // 
 		}
