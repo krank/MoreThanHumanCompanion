@@ -3,15 +3,20 @@ package com.urverkspel.humancompanion;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -20,8 +25,16 @@ import voltroll.VoltResult;
 
 public class MainActivity extends Activity {
 
+	// Drawer things
+	private String[] drawerListItems;
+	private ListView drawerListView;
+	private DrawerLayout drawerLayout;
+	private ActionBarDrawerToggle actionBarDrawerToggle;
+	
+	// This view
 	private MainActivity thisActivity;
 
+	// Views
 	private SeekBar valueSeekBar;
 	private SeekBar thresholdSeekBar;
 
@@ -34,6 +47,7 @@ public class MainActivity extends Activity {
 
 	private Button rollButton;
 
+	// Constants
 	static final int DEFAULT_VALUE = 9;
 	static final int DEFAULT_THRESHOLD = 0;
 
@@ -45,10 +59,12 @@ public class MainActivity extends Activity {
 	static final String STATE_VALUE = "value";
 	static final String STATE_THRESHOLD = "threshold";
 
+	// Variables
 	private Boolean lastRollUsedLuck;
 	private int lastValue;
 	private int lastThreshold;
 
+	// Preferences
 	SharedPreferences prefs;
 
 	@Override
@@ -57,6 +73,29 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.roller);
 
 		thisActivity = this;
+		
+		
+		drawerListItems = getResources().getStringArray(R.array.drawer_items);
+		drawerListView = (ListView) findViewById(R.id.left_drawer);
+		
+		drawerListView.setAdapter(new ArrayAdapter<String>(this, 
+		R.layout.drawer_listview_item,
+		drawerListItems));
+		
+		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		actionBarDrawerToggle = new ActionBarDrawerToggle(
+				this,
+				drawerLayout,
+				R.drawable.ic_drawer,
+				R.string.drawer_open,
+				R.string.drawer_close
+		);
+		
+		drawerLayout.setDrawerListener(actionBarDrawerToggle);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setHomeButtonEnabled(true);
+		
+		
 
 		// Find seek bars
 		valueSeekBar = (SeekBar) this.findViewById(R.id.roller_value_seekbar);
@@ -191,16 +230,30 @@ public class MainActivity extends Activity {
 
 	}
 
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        actionBarDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        actionBarDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
+		if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
+			return true;
+		}
+		
 		switch (item.getItemId()) {
 			case R.id.roller_settings:
 				Intent intent = new Intent(thisActivity, SettingsActivity.class);
 				thisActivity.startActivity(intent);
-				return true;
-			case android.R.id.home:
-				onBackPressed();
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);

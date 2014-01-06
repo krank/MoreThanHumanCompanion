@@ -15,4 +15,16 @@
 	<string name="double_success">2x Success</string>
 	
 	<string name="settings">Settings</string>
+	
+	<!-- Drawer items -->
+	<string-array name="drawer_items">
+		<item>Dice roller</item>
+		<item>Combat</item>
+	</string-array>
+	
+	<string name="drawer_open">Open navigation drawer</string>
+	<string name="drawer_close">Close navigation drawer</string>
+	
+	
+	
 </resources>

@@ -1,149 +1,169 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
+<android.support.v4.widget.DrawerLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/drawer_layout"
 	android:layout_width="fill_parent"
-	android:layout_height="fill_parent" >
-	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-				  android:orientation="vertical"
-				  android:layout_width="fill_parent"
-				  android:layout_height="wrap_content"
-	>
-		<TextView
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:text="@string/parameters"
-			style="?android:attr/listSeparatorTextViewStyle"
-		/>
-		<LinearLayout
-			android:orientation="horizontal"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-		>
-			<LinearLayout
-				android:orientation="vertical"
-				android:layout_width="0dp"
-				android:layout_weight="1"
-				android:layout_height="wrap_content"
-			>
-			
-				<TextView
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:padding="10dp"
-					android:text="@string/value"
-				/>
-			
-				<SeekBar
-					android:id="@+id/roller_value_seekbar"
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:layout_gravity="center_vertical"
-					android:max="32"
-				/>
-		
-			</LinearLayout>
-		
-			<EditText
-				android:id="@+id/roller_value_edittext"
-				android:layout_width="64sp"
-				android:layout_height="64sp"
-				android:inputType="number"
-				android:maxLength="2"
-				android:textSize="32sp"
-			/>
-		</LinearLayout>
-	
-		<LinearLayout
-			android:orientation="horizontal"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-		>
-			<LinearLayout
-				android:orientation="vertical"
-				android:layout_width="0dp"
-				android:layout_weight="1"
-				android:layout_height="wrap_content"
-			>
-			
-				<TextView
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:padding="10dp"
-					android:text="@string/threshold"
-				/>
-			
-				<SeekBar
-					android:id="@+id/roller_threshold_seekbar"
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:layout_gravity="center_vertical"
-					android:max="32"
-				/>
-		
-			</LinearLayout>
-		
-			<EditText
-				android:id="@+id/roller_threshold_edittext"
-				android:layout_width="64sp"
-				android:layout_height="64sp"
-				android:inputType="number"
-				android:maxLength="2"
-				android:textSize="32sp"
-			/>
-		</LinearLayout>
-	
-		<TextView
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:text="@string/getresults"
-			style="?android:attr/listSeparatorTextViewStyle"
-		/>
-	
-		<Button
-			android:id="@+id/roller_button"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:text="@string/roll"
-			android:layout_margin="10dp"
-		/>
-		
-		<TextView
-			android:id="@+id/roller_result"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:textSize="40sp"
-			android:paddingBottom="10dp"
-			android:gravity="center_horizontal"
-		/>
-	
-		<LinearLayout
-			android:orientation="horizontal"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
+	android:layout_height="fill_parent"
+>
+	<!-- The main content view-->
+	<ScrollView
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent" >
+		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+					  android:orientation="vertical"
+					  android:layout_width="fill_parent"
+					  android:layout_height="wrap_content"
 		>
 			<TextView
-				android:id="@+id/roller_black"
-				android:layout_width="0dp"
-				android:layout_weight="1"
+				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
-				android:padding="10dp"
+				android:text="@string/parameters"
+				style="?android:attr/listSeparatorTextViewStyle"
+			/>
+			<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+			>
+				<LinearLayout
+					android:orientation="vertical"
+					android:layout_width="0dp"
+					android:layout_weight="1"
+					android:layout_height="wrap_content"
+				>
+			
+					<TextView
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:padding="10dp"
+						android:text="@string/value"
+					/>
+			
+					<SeekBar
+						android:id="@+id/roller_value_seekbar"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center_vertical"
+						android:max="32"
+					/>
+		
+				</LinearLayout>
+		
+				<EditText
+					android:id="@+id/roller_value_edittext"
+					android:layout_width="64sp"
+					android:layout_height="64sp"
+					android:inputType="number"
+					android:maxLength="2"
+					android:textSize="32sp"
+				/>
+			</LinearLayout>
+	
+			<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+			>
+				<LinearLayout
+					android:orientation="vertical"
+					android:layout_width="0dp"
+					android:layout_weight="1"
+					android:layout_height="wrap_content"
+				>
+			
+					<TextView
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:padding="10dp"
+						android:text="@string/threshold"
+					/>
+			
+					<SeekBar
+						android:id="@+id/roller_threshold_seekbar"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center_vertical"
+						android:max="32"
+					/>
+		
+				</LinearLayout>
+		
+				<EditText
+					android:id="@+id/roller_threshold_edittext"
+					android:layout_width="64sp"
+					android:layout_height="64sp"
+					android:inputType="number"
+					android:maxLength="2"
+					android:textSize="32sp"
+				/>
+			</LinearLayout>
+	
+			<TextView
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/getresults"
+				style="?android:attr/listSeparatorTextViewStyle"
+			/>
+	
+			<Button
+				android:id="@+id/roller_button"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/roll"
+				android:layout_margin="10dp"
+			/>
+		
+			<TextView
+				android:id="@+id/roller_result"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:textSize="40sp"
+				android:paddingBottom="10dp"
 				android:gravity="center_horizontal"
-				android:background="#ff000000"
-				android:textColor="#ffffffff"
+			/>
+	
+			<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+			>
+				<TextView
+					android:id="@+id/roller_black"
+					android:layout_width="0dp"
+					android:layout_weight="1"
+					android:layout_height="wrap_content"
+					android:padding="10dp"
+					android:gravity="center_horizontal"
+					android:background="#ff000000"
+					android:textColor="#ffffffff"
 				
-			/>
-			<TextView
-				android:id="@+id/roller_white"
-				android:layout_width="0dp"
-				android:layout_weight="1"
-				android:layout_height="wrap_content"
-				android:padding="10dp"
-				android:gravity="center_horizontal"
-				android:background="@drawable/blackborder"
-			/>			
+				/>
+				<TextView
+					android:id="@+id/roller_white"
+					android:layout_width="0dp"
+					android:layout_weight="1"
+					android:layout_height="wrap_content"
+					android:padding="10dp"
+					android:gravity="center_horizontal"
+					android:background="@drawable/blackborder"
+				/>			
 		
+			</LinearLayout>
 		</LinearLayout>
-	</LinearLayout>
 
-</ScrollView>
+	</ScrollView>
+	
+	<!-- The navigation drawer -->
+	<ListView
+		android:id="@+id/left_drawer"
+		android:layout_width="240dp"
+		android:layout_height="fill_parent"
+		android:layout_gravity="start"
+		android:choiceMode="singleChoice"
+		android:divider="@android:color/transparent"
+		android:dividerHeight="0dp"
+		android:background="#111"
+	/>
+</android.support.v4.widget.DrawerLayout>
