@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- The common slider bar-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  android:layout_width="match_parent"
+			  android:layout_height="wrap_content"
+			  android:orientation="horizontal"
+>
+	
+	
+	<!-- The text box-->
+	<EditText
+		android:id="@+id/textbox"
+		android:layout_width="64sp"
+		android:layout_height="wrap_content"
+		android:inputType="number"
+		android:maxLength="2"
+		android:textSize="32sp"
+	/>
+	
+	<!-- The slider, including header-->
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_width="0dp"
+		android:layout_weight="1"
+		android:layout_height="wrap_content"
+	>
+			
+		<TextView
+			android:id="@+id/header"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:padding="10dp"
+			android:paddingBottom="0dp"
+		/>
+			
+		<SeekBar
+			android:id="@+id/seekbar"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_vertical"
+			android:max="32"
+		/>
+		
+	</LinearLayout>
+	
+</LinearLayout>

@@ -1,5 +1,6 @@
 package com.urverkspel.humancompanion;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -21,6 +23,7 @@ public class RollerFragment extends Fragment {
 	// This view
 	private View rootView;
 	private RollerFragment thisFragment;
+	private Activity parentActivity;
 
 	// Views
 	private SeekBar valueSeekBar;
@@ -67,11 +70,12 @@ public class RollerFragment extends Fragment {
 
 		// Make instance of this
 		thisFragment = this;
-		
+		parentActivity = this.getActivity();
+
 		findViews();
 		setListeners();
 		setZeroes();
-		
+
 		// Get shared preferences
 		prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
 
@@ -79,22 +83,37 @@ public class RollerFragment extends Fragment {
 	}
 
 	private void findViews() {
+
+		// Find the template views
+		LinearLayout valueSlider = (LinearLayout) rootView.findViewById(R.id.slider_value);
+		LinearLayout thresholdSlider = (LinearLayout) rootView.findViewById(R.id.slider_threshold);
+		
+		LinearLayout resultBox = (LinearLayout) rootView.findViewById(R.id.view_result);
+		
 		// Find seek bars
-		valueSeekBar = (SeekBar) rootView.findViewById(R.id.roller_value_seekbar);
-		thresholdSeekBar = (SeekBar) rootView.findViewById(R.id.roller_threshold_seekbar);
+		valueSeekBar = (SeekBar) valueSlider.findViewById(R.id.seekbar);
+		thresholdSeekBar = (SeekBar) thresholdSlider.findViewById(R.id.seekbar);
 
 		// Find TextEdits
-		valueEditText = (EditText) rootView.findViewById(R.id.roller_value_edittext);
-		thresholdEditText = (EditText) rootView.findViewById(R.id.roller_threshold_edittext);
+		valueEditText = (EditText) valueSlider.findViewById(R.id.textbox);
+		thresholdEditText = (EditText) thresholdSlider.findViewById(R.id.textbox);
 
 		// Find TextViews
-		blackTextView = (TextView) rootView.findViewById(R.id.roller_black);
-		whiteTextView = (TextView) rootView.findViewById(R.id.roller_white);
+		TextView valueHeader = (TextView) valueSlider.findViewById(R.id.header);
+		TextView thresholdHeader = (TextView) thresholdSlider.findViewById(R.id.header);
 
-		resultTextView = (TextView) rootView.findViewById(R.id.roller_result);
+		blackTextView = (TextView) resultBox.findViewById(R.id.result_black);
+		whiteTextView = (TextView) resultBox.findViewById(R.id.result_white);
+
+		resultTextView = (TextView) rootView.findViewById(R.id.result_text);
 
 		// Find button
 		rollButton = (Button) rootView.findViewById(R.id.roller_button);
+
+		// Set descriptions of slider views
+		valueHeader.setText(parentActivity.getString(R.string.value));
+		thresholdHeader.setText(parentActivity.getString(R.string.threshold));
+
 	}
 
 	private void setListeners() {
@@ -105,11 +124,11 @@ public class RollerFragment extends Fragment {
 		// Set listeners for EditTexts
 		valueEditText.addTextChangedListener(new EditWatcher(valueSeekBar, valueEditText));
 		thresholdEditText.addTextChangedListener(new EditWatcher(thresholdSeekBar, thresholdEditText));
-		
+
 		// Set button listener
 		rollButton.setOnClickListener(new RollClicker());
 	}
-	
+
 	private void setZeroes() {
 		// Set initial zeros
 		valueEditText.setText(String.valueOf(DEFAULT_VALUE));
@@ -117,7 +136,7 @@ public class RollerFragment extends Fragment {
 		thresholdEditText.setText(String.valueOf(DEFAULT_THRESHOLD));
 		thresholdSeekBar.setProgress(DEFAULT_THRESHOLD);
 	}
-	
+
 	private void displayRollResult(VoltResult vr) {
 
 		thisFragment.blackTextView.setText(String.valueOf(vr.black.value));

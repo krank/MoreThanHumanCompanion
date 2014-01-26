@@ -8,7 +8,7 @@
 	<string name="advanced">Avancerat</string>
 	<string name="use_luck">Använd "tur"-regeln</string>
 	<string name="roll">Rulla</string>
-	<string name="getresults">Resultat</string>
+	<string name="results">Resultat</string>
 	
 	<string name="fail">Misslyckat</string>
 	<string name="success">Lyckat</string>
