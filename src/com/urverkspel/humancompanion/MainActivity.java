@@ -57,7 +57,7 @@ public class MainActivity extends Activity {
 		
 		
 
-		displayView(0);
+		displayView(1);
 	}
 	
 	private class SlideMenuClickListener implements ListView.OnItemClickListener {

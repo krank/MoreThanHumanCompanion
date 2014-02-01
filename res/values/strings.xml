@@ -16,6 +16,30 @@
 	
 	<string name="settings">Settings</string>
 	
+	<!-- Combat -->
+	<string name="weapon_penetration">Weapon penetration</string>
+	<string name="weapon_damage">Weapon damage</string>
+	<string name="weapon_damage_type">Weapon damage type</string>
+	<string name="injury">Injury</string>
+	<string name="stun">Stun</string>
+	
+	<string name="attack_type">Attack type</string>
+	<string name="close_combat">Close combat</string>
+	<string name="ranged_combat">Ranged combat</string>
+	
+	<string name="rkf">RKF</string>
+	<string name="attack">Attack</string>
+	<string name="defense">Defense</string>
+	<string name="range">Range</string>
+	
+	<string name="armor">Armor</string>
+	<string name="use_armor">Use armor</string>
+	
+	<string name="armor_coverage">Armor coverage</string>
+	<string name="armor_protection_min">Armor protection (min)</string>
+	<string name="armor_protection_max">Armor protection (max)</string>
+	
+	
 	<!-- Drawer items -->
 	<string-array name="drawer_items">
 		<item>Dice roller</item>
