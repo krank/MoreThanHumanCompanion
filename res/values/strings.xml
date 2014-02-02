@@ -36,8 +36,7 @@
 	<string name="use_armor">Use armor</string>
 	
 	<string name="armor_coverage">Armor coverage</string>
-	<string name="armor_protection_min">Armor protection (min)</string>
-	<string name="armor_protection_max">Armor protection (max)</string>
+	<string name="armor_protection">Armor protection</string>
 	
 	
 	<!-- Drawer items -->
