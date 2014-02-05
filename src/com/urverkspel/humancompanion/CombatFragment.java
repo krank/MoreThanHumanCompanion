@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -88,10 +89,8 @@ public class CombatFragment extends Fragment {
 	}
 
 	private void addRangeSelector() {
-		protectionSeekbar = new RangeSeekBar<Integer>(1, 32, parentActivity);
-
+		protectionSeekbar = new RangeSeekBar<Integer>(0, 32, parentActivity);
 		protectionLayout.addView(protectionSeekbar);
-
 	}
 
 	private void findInterfaceElements() {
@@ -163,11 +162,33 @@ public class CombatFragment extends Fragment {
 		penetrationSeekBar.setOnSeekBarChangeListener(new SeekListener(penetrationEditText));
 		coverageSeekBar.setOnSeekBarChangeListener(new SeekListener(coverageEditText));
 
+		protectionSeekbar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
+			public void onRangeSeekBarValuesChanged(RangeSeekBar bar, Object minValue, Object maxValue) {
+				protectionMinEditText.setText(minValue.toString());
+				protectionMaxEditText.setText(maxValue.toString());
+			}
+		});
+
 		valueEditText.addTextChangedListener(new EditWatcher(valueSeekBar, valueEditText));
 		thresholdEditText.addTextChangedListener(new EditWatcher(thresholdSeekBar, thresholdEditText));
 		damageEditText.addTextChangedListener(new EditWatcher(damageSeekBar, damageEditText));
 		penetrationEditText.addTextChangedListener(new EditWatcher(penetrationSeekBar, penetrationEditText));
 		coverageEditText.addTextChangedListener(new EditWatcher(coverageSeekBar, coverageEditText));
+
+		protectionMinEditText.addTextChangedListener(new EditWatcherRanged(protectionSeekbar, protectionMinEditText, false));
+		protectionMaxEditText.addTextChangedListener(new EditWatcherRanged(protectionSeekbar, protectionMaxEditText, true));
+
+		OnFocusChangeListener protectionFocusChangeListener = new OnFocusChangeListener() {
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (!hasFocus) {
+					protectionMinEditText.setText(protectionSeekbar.getSelectedMinValue().toString());
+					protectionMaxEditText.setText(protectionSeekbar.getSelectedMaxValue().toString());
+				}
+			}
+		};
+
+		protectionMinEditText.setOnFocusChangeListener(protectionFocusChangeListener);
+		protectionMaxEditText.setOnFocusChangeListener(protectionFocusChangeListener);
 
 	}
 
