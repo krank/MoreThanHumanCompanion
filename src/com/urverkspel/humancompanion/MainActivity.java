@@ -1,12 +1,14 @@
 package com.urverkspel.humancompanion;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
+import android.app.ActionBar;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,16 +17,23 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
 
 	// Drawer things
 	private String[] drawerListItems;
 	private ListView drawerListView;
 	private DrawerLayout drawerLayout;
 	private ActionBarDrawerToggle actionBarDrawerToggle;
-	
+
 	// This view
 	private MainActivity thisActivity;
+
+	// Pager things
+	private ViewPager viewPager;
+	private FragmentPagerAdapter pagerAdapter;
+
+	// Tab things
+	private ActionBar actionBar;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -32,16 +41,16 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.main_activity);
 
 		thisActivity = this;
-		
-		
+
+		/* Drawer things */
 		drawerListItems = getResources().getStringArray(R.array.drawer_items);
 		drawerListView = (ListView) findViewById(R.id.left_drawer);
-		
-		drawerListView.setAdapter(new ArrayAdapter<String>(this, 
-		R.layout.drawer_listview_item, drawerListItems));
-		
+
+		drawerListView.setAdapter(new ArrayAdapter<String>(this,
+				R.layout.drawer_listview_item, drawerListItems));
+
 		drawerListView.setOnItemClickListener(new SlideMenuClickListener());
-		
+
 		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		actionBarDrawerToggle = new ActionBarDrawerToggle(
 				this,
@@ -50,14 +59,26 @@ public class MainActivity extends Activity {
 				R.string.drawer_open,
 				R.string.drawer_close
 		);
-		
+
 		drawerLayout.setDrawerListener(actionBarDrawerToggle);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);
-		
-		
+
+		/* Pager things */
+		viewPager = (ViewPager) findViewById(R.id.pager);
+		actionBar = getActionBar();
 
 		displayView(1);
+	}
+
+	public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
+		viewPager.setCurrentItem(tab.getPosition());
+	}
+
+	public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
+	}
+
+	public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
 	}
 	
 	private class SlideMenuClickListener implements ListView.OnItemClickListener {
@@ -65,29 +86,37 @@ public class MainActivity extends Activity {
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			displayView(position);
 		}
-		
+
 	}
-	
-	private void displayView(int position) {
-		Fragment fragment = null;
+
+	private void displayView(int menuIndex) {
+		String[] tabs = {};
 		
-		switch (position) {
-			case 0:
-				fragment = new RollerFragment();
+		switch (menuIndex) {
+			case 0: // Roller
+				actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+				pagerAdapter = new RollerPagerAdapter(getSupportFragmentManager());
 				break;
-			case 1:
-				fragment = new CombatFragment();
-			default:
+			case 1: // Combat roll
+				actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+				tabs = new String[]{
+					this.getString(R.string.parameters),
+					this.getString(R.string.results)
+				};
+				pagerAdapter = new CombatPagerAdapter(getSupportFragmentManager());
 				break;
 		}
 		
-		if (fragment != null) {
-			FragmentManager fragmentManager = getFragmentManager();
-			fragmentManager.beginTransaction()
-					.replace(R.id.frame_container, fragment).commit();
-			this.drawerLayout.closeDrawer(this.drawerListView);
+		viewPager.setAdapter(pagerAdapter);
+
+		actionBar.removeAllTabs();
+		for (String tab_name : tabs) {
+			actionBar.addTab(actionBar.newTab().setText(tab_name)
+					.setTabListener(this));
 		}
 		
+		this.drawerLayout.closeDrawer(this.drawerListView);
+
 	}
 
 	@Override
@@ -98,18 +127,18 @@ public class MainActivity extends Activity {
 
 	}
 
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
-        actionBarDrawerToggle.syncState();
-    }
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		// Sync the toggle state after onRestoreInstanceState has occurred.
+		actionBarDrawerToggle.syncState();
+	}
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        actionBarDrawerToggle.onConfigurationChanged(newConfig);
-    }
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		actionBarDrawerToggle.onConfigurationChanged(newConfig);
+	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -117,7 +146,7 @@ public class MainActivity extends Activity {
 		if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
 			return true;
 		}
-		
+
 		switch (item.getItemId()) {
 			case R.id.roller_settings:
 				Intent intent = new Intent(thisActivity, SettingsActivity.class);

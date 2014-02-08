@@ -1,12 +1,15 @@
 package com.urverkspel.humancompanion;
 
+import android.app.ActionBar;
 import android.app.Activity;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -14,6 +17,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -24,27 +28,26 @@ public class CombatFragment extends Fragment {
 
 	// General things
 	private View rootView;
-	private CombatFragment thisFragment;
 	private Activity parentActivity;
+	private ScrollView scrollView;
 
 	// UI elements
 	private LinearLayout armorLayout;
 	private LinearLayout protectionLayout;
-	private LinearLayout protectionSlider;
-
+	
 	private TextView valueHeader;
 	private TextView thresholdHeader;
 	private TextView damageHeader;
 	private TextView penetrationHeader;
 	private TextView coverageHeader;
 	private TextView protectionHeader;
-
+	
 	private SeekBar valueSeekBar;
 	private SeekBar thresholdSeekBar;
 	private SeekBar damageSeekBar;
 	private SeekBar penetrationSeekBar;
 	private SeekBar coverageSeekBar;
-
+	
 	private EditText valueEditText;
 	private EditText thresholdEditText;
 	private EditText damageEditText;
@@ -52,10 +55,10 @@ public class CombatFragment extends Fragment {
 	private EditText coverageEditText;
 	private EditText protectionMinEditText;
 	private EditText protectionMaxEditText;
-
+	
 	private CheckBox useArmor;
-
-	private RangeSeekBar<Integer> protectionSeekbar;
+	
+	private RangeSeekBar<Integer> protectionSeekBar;
 
 	// Constants
 	static final int DEFAULT_VALUE = 9;
@@ -65,45 +68,51 @@ public class CombatFragment extends Fragment {
 	static final int DEFAULT_COVERAGE = 0;
 	static final int DEFAULT_PROTECTION_MIN = 0;
 	static final int DEFAULT_PROTECTION_MAX = 5;
-
-	public CombatFragment() {
-	}
-
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
 		// Create local references to general things
-		thisFragment = this;
 		parentActivity = this.getActivity();
 		rootView = inflater.inflate(R.layout.fragment_combat, container, false);
-
+		
 		findInterfaceElements();
 		addRangeSelector();
 		updateHeadings(false);
 		setListeners();
-
+		
 		setDefaults();
-
+		
 		return rootView;
 	}
+	
+	private void setupActionBar() {
+		ActionBar actionBar = parentActivity.getActionBar();
 
-	private void addRangeSelector() {
-		protectionSeekbar = new RangeSeekBar<Integer>(0, 32, parentActivity);
-		protectionLayout.addView(protectionSeekbar);
+		// Enable tab navigation mode
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		
 	}
-
+	
+	private void addRangeSelector() {
+		protectionSeekBar = new RangeSeekBar<Integer>(0, 32, parentActivity);
+		protectionLayout.addView(protectionSeekBar);
+	}
+	
 	private void findInterfaceElements() {
-
+		
+		scrollView = (ScrollView) rootView.findViewById(R.id.scroller);
+		
 		LinearLayout valueLayout = (LinearLayout) rootView.findViewById(R.id.slider_value);
 		LinearLayout thresholdLayout = (LinearLayout) rootView.findViewById(R.id.slider_threshold);
 		LinearLayout damageLayout = (LinearLayout) rootView.findViewById(R.id.slider_damage);
 		LinearLayout penetrationLayout = (LinearLayout) rootView.findViewById(R.id.slider_penetration);
 		LinearLayout coverageLayout = (LinearLayout) rootView.findViewById(R.id.slider_coverage);
-
+		
 		armorLayout = (LinearLayout) rootView.findViewById(R.id.layout_armor);
 		protectionLayout = (LinearLayout) armorLayout.findViewById(R.id.layout_protection);
-
+		
 		useArmor = (CheckBox) rootView.findViewById(R.id.chk_use_armor);
 
 		// Headers
@@ -130,9 +139,10 @@ public class CombatFragment extends Fragment {
 		protectionMinEditText = (EditText) armorLayout.findViewById(R.id.textbox_min);
 		protectionMaxEditText = (EditText) armorLayout.findViewById(R.id.textbox_max);
 	}
-
+	
 	private void setListeners() {
-
+		
+		// USE ARMOR CHECKBOX
 		useArmor.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (isChecked) {
@@ -142,11 +152,12 @@ public class CombatFragment extends Fragment {
 				}
 			}
 		});
-
+		
+		// COMBAT TYPE
 		RadioGroup combatType = (RadioGroup) rootView.findViewById(R.id.radio_combat_type);
-
+		
 		combatType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-
+			
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
 				if (checkedId == R.id.radio_closecombat) {
 					updateHeadings(true);
@@ -155,43 +166,64 @@ public class CombatFragment extends Fragment {
 				}
 			}
 		});
-
+		
+		// SEEKBARS & TEXT BOXES
 		valueSeekBar.setOnSeekBarChangeListener(new SeekListener(valueEditText));
 		thresholdSeekBar.setOnSeekBarChangeListener(new SeekListener(thresholdEditText));
 		damageSeekBar.setOnSeekBarChangeListener(new SeekListener(damageEditText));
 		penetrationSeekBar.setOnSeekBarChangeListener(new SeekListener(penetrationEditText));
 		coverageSeekBar.setOnSeekBarChangeListener(new SeekListener(coverageEditText));
-
-		protectionSeekbar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
+		
+		protectionSeekBar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
 			public void onRangeSeekBarValuesChanged(RangeSeekBar bar, Object minValue, Object maxValue) {
 				protectionMinEditText.setText(minValue.toString());
 				protectionMaxEditText.setText(maxValue.toString());
 			}
 		});
-
+		
 		valueEditText.addTextChangedListener(new EditWatcher(valueSeekBar, valueEditText));
 		thresholdEditText.addTextChangedListener(new EditWatcher(thresholdSeekBar, thresholdEditText));
 		damageEditText.addTextChangedListener(new EditWatcher(damageSeekBar, damageEditText));
 		penetrationEditText.addTextChangedListener(new EditWatcher(penetrationSeekBar, penetrationEditText));
 		coverageEditText.addTextChangedListener(new EditWatcher(coverageSeekBar, coverageEditText));
-
-		protectionMinEditText.addTextChangedListener(new EditWatcherRanged(protectionSeekbar, protectionMinEditText, false));
-		protectionMaxEditText.addTextChangedListener(new EditWatcherRanged(protectionSeekbar, protectionMaxEditText, true));
-
+		
+		// SPECIAL PROTECTION SEEKBAR THINGS
+		protectionMinEditText.addTextChangedListener(new EditWatcherRanged(protectionSeekBar, protectionMinEditText, false));
+		protectionMaxEditText.addTextChangedListener(new EditWatcherRanged(protectionSeekBar, protectionMaxEditText, true));
+		
 		OnFocusChangeListener protectionFocusChangeListener = new OnFocusChangeListener() {
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (!hasFocus) {
-					protectionMinEditText.setText(protectionSeekbar.getSelectedMinValue().toString());
-					protectionMaxEditText.setText(protectionSeekbar.getSelectedMaxValue().toString());
+					protectionMinEditText.setText(protectionSeekBar.getSelectedMinValue().toString());
+					protectionMaxEditText.setText(protectionSeekBar.getSelectedMaxValue().toString());
 				}
 			}
 		};
-
+		
 		protectionMinEditText.setOnFocusChangeListener(protectionFocusChangeListener);
 		protectionMaxEditText.setOnFocusChangeListener(protectionFocusChangeListener);
 
+		// Fix seekbar + scroller issue
+		
+		OnTouchListener overrideListener = new OnTouchListener() {
+			
+			public boolean onTouch(View v, MotionEvent event) {
+				if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE) {
+					scrollView.requestDisallowInterceptTouchEvent(true);
+				}
+				
+				return false;
+			}
+		};
+		
+		valueSeekBar.setOnTouchListener(overrideListener);
+		thresholdSeekBar.setOnTouchListener(overrideListener);
+		damageSeekBar.setOnTouchListener(overrideListener);
+		penetrationSeekBar.setOnTouchListener(overrideListener);
+		coverageSeekBar.setOnTouchListener(overrideListener);
+		
 	}
-
+	
 	private void updateHeadings(Boolean isCloseCombat) {
 		if (isCloseCombat) {
 			valueHeader.setText(parentActivity.getString(R.string.attack));
@@ -204,9 +236,9 @@ public class CombatFragment extends Fragment {
 		penetrationHeader.setText(parentActivity.getString(R.string.weapon_penetration));
 		coverageHeader.setText(parentActivity.getString(R.string.armor_coverage));
 		protectionHeader.setText(parentActivity.getString(R.string.armor_protection));
-
+		
 	}
-
+	
 	private void setDefaults() {
 		valueEditText.setText(String.valueOf(DEFAULT_VALUE));
 		thresholdEditText.setText(String.valueOf(DEFAULT_THRESHOLD));
@@ -216,5 +248,5 @@ public class CombatFragment extends Fragment {
 		protectionMinEditText.setText(String.valueOf(DEFAULT_PROTECTION_MIN));
 		protectionMaxEditText.setText(String.valueOf(DEFAULT_PROTECTION_MAX));
 	}
-
+	
 }
