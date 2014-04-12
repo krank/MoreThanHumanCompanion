@@ -68,7 +68,24 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		viewPager = (ViewPager) findViewById(R.id.pager);
 		actionBar = getActionBar();
 
-		displayView(1);
+                /* Select the correct tab when changing page by swiping */
+                viewPager.setOnPageChangeListener(
+                        new ViewPager.SimpleOnPageChangeListener() {
+                            @Override
+                            public void onPageSelected(int position) {
+                                getActionBar().setSelectedNavigationItem(position);
+                            }
+                        }
+                );
+                
+                
+                
+                
+                
+                
+                
+                /* Display initial view */
+		displayView(1); // 1 = Combat
 	}
 
 	public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
@@ -101,6 +118,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 				actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 				tabs = new String[]{
 					this.getString(R.string.parameters),
+                                        this.getString(R.string.armor),
 					this.getString(R.string.results)
 				};
 				pagerAdapter = new CombatPagerAdapter(getSupportFragmentManager());
@@ -114,7 +132,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			actionBar.addTab(actionBar.newTab().setText(tab_name)
 					.setTabListener(this));
 		}
-		
+
 		this.drawerLayout.closeDrawer(this.drawerListView);
 
 	}

@@ -6,26 +6,28 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 public class CombatPagerAdapter extends FragmentPagerAdapter {
 
-	public CombatPagerAdapter(FragmentManager fm) {
-		super(fm);
-	}
+    public CombatPagerAdapter(FragmentManager fm) {
+        super(fm);
+    }
 
-	@Override
-	public Fragment getItem(int i) {
-		
-		switch(i) {
-			case 0:
-				return new CombatFragment();
-			case 1:
-				return new CombatResultFragment();
-		}
-		
-		return null;
-	}
+    @Override
+    public Fragment getItem(int i) {
 
-	@Override
-	public int getCount() {
-		return 2;
-	}
-	
+        switch (i) {
+            case 0:
+                return new CombatFragment();
+            case 1:
+                return new CombatArmorFragment();
+            case 2:
+                return new CombatResultFragment();
+        }
+
+        return null;
+    }
+
+    @Override
+    public int getCount() {
+        return 3;
+    }
+
 }
