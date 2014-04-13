@@ -3,6 +3,7 @@
     <string name="app_name">&gt;Human Companion</string>
 	
 	<string name="parameters">Parameters</string>
+	<string name="details">Details</string>
 	<string name="value">Value</string>
 	<string name="threshold">Threshold</string>
 	<string name="advanced">Advanced</string>
@@ -14,6 +15,10 @@
 	<string name="success">Success</string>
 	<string name="double_success">2x Success</string>
 	
+	<string name="white">White</string>
+	<string name="black">Black</string>
+	
+	
 	<string name="settings">Settings</string>
 	
 	<!-- Combat -->
@@ -22,6 +27,7 @@
 	<string name="weapon_damage_type">Weapon damage type</string>
 	<string name="injury">Injury</string>
 	<string name="stun">Stun</string>
+	<string name="no_damage">No damage</string>
 	
 	<string name="attack_type">Attack type</string>
 	<string name="close_combat">Close combat</string>
@@ -37,6 +43,24 @@
 	
 	<string name="armor_coverage">Armor coverage</string>
 	<string name="armor_protection">Armor protection</string>
+	
+	
+	<string name="hit">Hit</string>
+	<string name="fullhit">Full hit</string>
+	<string name="miss">Miss</string>
+	
+	
+	<string name="armor_effect_header_off">Armor not active</string>
+	<string name="armor_effect_header_not_covered">Weak spot</string>
+	<string name="armor_effect_header_fully_penetrated">Penetrated armor</string>
+	<string name="armor_effect_header_partially_penetrated">Softened the blow</string>
+	<string name="armor_effect_header_completely_protected">Fully protected</string>
+	
+	<string name="armor_effect_desc_off">\"Use armor\" setting disabled.</string>
+	<string name="armor_effect_desc_not_covered">The attack hit an unprotected spot.</string>
+	<string name="armor_effect_desc_fully_penetrated">The attack went right through.</string>
+	<string name="armor_effect_desc_partially_penetrated">The attack was slowed down.</string>
+	<string name="armor_effect_desc_completely_protected">The armor was fully effective.</string>
 	
 	
 	<!-- Drawer items -->

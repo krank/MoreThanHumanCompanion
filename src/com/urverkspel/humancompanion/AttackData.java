@@ -13,29 +13,29 @@ public class AttackData {
 	public int coverage;
 	public int protectionMin;
 	public int protectionMax;
-	public boolean isChock;
+	public boolean isStun;
 
 	public VoltResult hitResult;
 	public VoltResult damageResult;
 
 	public int resultHits;
 	public int resultDamage;
-	public boolean resultIsChock;
+	public boolean resultIsStun;
 	public int resultArmorEffect;
 	/*
-	 Armor setting OFF
-	 Insufficient Coverage ( white > coverage )
-	 Completely penetrated ( penetration > protection )
-	 Partially penetrated ( penetration in protection )
-	 Completely protected (penetration < protection )
+	 0 Armor setting OFF
+	 1 Insufficient Coverage ( white > coverage )
+	 2 Completely penetrated ( penetration > protection )
+	 3 Partially penetrated ( penetration in protection )
+	 4 Completely protected (penetration < protection )
 	 */
 
 	// Constants
-	static final int ARMOR_OFF = 0;
-	static final int ARMOR_NOT_COVERED = 1;
-	static final int ARMOR_FULLY_PENETRATED = 2;
-	static final int ARMOR_PARTIALLY_PENETRATED = 3;
-	static final int ARMOR_COMPLETELY_PROTECTED = 4;
+	public static final int ARMOR_OFF = 0;
+	public static final int ARMOR_NOT_COVERED = 1;
+	public static final int ARMOR_FULLY_PENETRATED = 2;
+	public static final int ARMOR_PARTIALLY_PENETRATED = 3;
+	public static final int ARMOR_COMPLETELY_PROTECTED = 4;
 
 	static final int DEFAULT_PENETRATION = 0;
 	static final int DEFAULT_COVERAGE = 0;
@@ -87,7 +87,6 @@ public class AttackData {
 		if (resultHits > 0) {
 			switch (resultArmorEffect) {
 				case ARMOR_OFF:
-					sb.append("Armor setting: Disabled.");
 					break;
 				default:
 					sb.append("Penetration/Protection:\n");
@@ -121,10 +120,10 @@ public class AttackData {
 				sb.append("Skada: ");
 				sb.append(resultDamage);
 
-				if (resultIsChock) {
-					sb.append(" Chock.");
+				if (resultIsStun) {
+					sb.append(" Stun.");
 				} else {
-					sb.append(" Trauma.");
+					sb.append(" Injury.");
 				}
 			} else {
 				sb.append("No damage");
@@ -134,15 +133,15 @@ public class AttackData {
 		return sb.toString();
 	}
 
-	public void roll() {
+	public void roll(boolean useLuck) {
 
 		int effectiveDamage = damage;
 		int effectivePenetration = penetration;
 		
-		resultIsChock = isChock;
+		resultIsStun = isStun;
 
 		// HITTING
-		hitResult = new VoltResult(value, threshold, false);
+		hitResult = new VoltResult(value, threshold, useLuck);
 
 		// full hit = increase effective damage
 		if (hitResult.bothSuccessful) {
@@ -166,7 +165,7 @@ public class AttackData {
 					} else {
 						resultArmorEffect = ARMOR_PARTIALLY_PENETRATED;
 						effectiveDamage -= 5;
-						resultIsChock = true;
+						resultIsStun = true;
 					}
 				} else {
 					resultArmorEffect = ARMOR_NOT_COVERED;
@@ -176,12 +175,12 @@ public class AttackData {
 			}
 
 			// Damage
-			damageResult = new VoltResult(effectiveDamage, false);
+			damageResult = new VoltResult(effectiveDamage, useLuck);
 
 			if (damageResult.successful) {
 				resultDamage = damageResult.result;
 			} else {
-				resultDamage = -1;
+				resultDamage = 0;
 			}
 		} else {
 			resultHits = 0;

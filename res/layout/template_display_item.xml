@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Displaying a simple item-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  android:layout_width="match_parent"
+			  android:layout_height="wrap_content"
+			  android:orientation="horizontal"
+			  android:paddingLeft="3dp"
+>
+	
+	
+	<!-- The icon box-->
+	<TextView
+		android:id="@+id/display_icon"
+		android:layout_width="48dp"
+		android:layout_height="48dp"
+		android:background="#ff000000"
+		android:layout_margin="3dp"
+		android:gravity="center"
+		android:textColor="#ffffffff"
+		android:textSize="24dp"
+		/>
+	
+	<!-- The slider, including header-->
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_width="0dp"
+		android:layout_weight="1"
+		android:layout_height="wrap_content"
+	>
+			
+		<TextView
+			android:id="@+id/display_header"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:paddingLeft="3dp"
+			android:paddingTop="3dp"
+			android:textSize="18sp"
+			android:textStyle="bold"
+		/>
+			
+		<TextView
+			android:id="@+id/display_text"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:paddingLeft="3dp"
+		/>		
+	</LinearLayout>
+	
+</LinearLayout>

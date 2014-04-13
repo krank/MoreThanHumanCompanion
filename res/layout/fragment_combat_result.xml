@@ -23,6 +23,7 @@
 			android:id="@+id/text_parameters"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
+			android:padding="5dp"
 		/>
 		
 		<!-- ROLL BUTTON -->
@@ -35,10 +36,23 @@
 			android:text="Roll"
 		/>
 		
-		<TextView
-			android:id="@+id/text_result"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			/>
+		<!-- DAMAGE RESULT -->
+		<include 
+			layout="@layout/template_display_item"
+			android:id="@+id/display_result_damage"
+		/>
+		
+		<!-- ARMOR RESULT -->
+		<include 
+			layout="@layout/template_display_item"
+			android:id="@+id/display_result_armor"
+		/>
+		
+		<!-- TOHIT RESULT -->
+		<include 
+			layout="@layout/template_display_item"
+			android:id="@+id/display_result_hitroll"
+		/>
+		
 	</LinearLayout>
 </ScrollView>
