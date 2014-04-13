@@ -17,163 +17,169 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
+public class MainActivity extends FragmentActivity implements ActionBar.TabListener, AttackDataHolder {
 
-	// Drawer things
-	private String[] drawerListItems;
-	private ListView drawerListView;
-	private DrawerLayout drawerLayout;
-	private ActionBarDrawerToggle actionBarDrawerToggle;
+    // Drawer things
+    private String[] drawerListItems;
+    private ListView drawerListView;
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle actionBarDrawerToggle;
 
-	// This view
-	private MainActivity thisActivity;
+    // This view
+    private MainActivity thisActivity;
 
-	// Pager things
-	private ViewPager viewPager;
-	private FragmentPagerAdapter pagerAdapter;
+    // Pager things
+    private ViewPager viewPager;
+    private FragmentPagerAdapter pagerAdapter;
 
-	// Tab things
-	private ActionBar actionBar;
+    // Tab things
+    private ActionBar actionBar;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main_activity);
+    // Data objects
+    private AttackData attackData;
 
-		thisActivity = this;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main_activity);
 
-		/* Drawer things */
-		drawerListItems = getResources().getStringArray(R.array.drawer_items);
-		drawerListView = (ListView) findViewById(R.id.left_drawer);
+        thisActivity = this;
 
-		drawerListView.setAdapter(new ArrayAdapter<String>(this,
-				R.layout.drawer_listview_item, drawerListItems));
+        /* Drawer things */
+        drawerListItems = getResources().getStringArray(R.array.drawer_items);
+        drawerListView = (ListView) findViewById(R.id.left_drawer);
 
-		drawerListView.setOnItemClickListener(new SlideMenuClickListener());
+        drawerListView.setAdapter(new ArrayAdapter<String>(this,
+                R.layout.drawer_listview_item, drawerListItems));
 
-		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		actionBarDrawerToggle = new ActionBarDrawerToggle(
-				this,
-				drawerLayout,
-				R.drawable.ic_drawer,
-				R.string.drawer_open,
-				R.string.drawer_close
-		);
+        drawerListView.setOnItemClickListener(new SlideMenuClickListener());
 
-		drawerLayout.setDrawerListener(actionBarDrawerToggle);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setHomeButtonEnabled(true);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(
+                this,
+                drawerLayout,
+                R.drawable.ic_drawer,
+                R.string.drawer_open,
+                R.string.drawer_close
+        );
 
-		/* Pager things */
-		viewPager = (ViewPager) findViewById(R.id.pager);
-		actionBar = getActionBar();
+        drawerLayout.setDrawerListener(actionBarDrawerToggle);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
 
-                /* Select the correct tab when changing page by swiping */
-                viewPager.setOnPageChangeListener(
-                        new ViewPager.SimpleOnPageChangeListener() {
-                            @Override
-                            public void onPageSelected(int position) {
-                                getActionBar().setSelectedNavigationItem(position);
-                            }
-                        }
-                );
-                
-                
-                
-                
-                
-                
-                
-                /* Display initial view */
-		displayView(1); // 1 = Combat
-	}
+        /* Pager things */
+        viewPager = (ViewPager) findViewById(R.id.pager);
+        actionBar = getActionBar();
 
-	public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-		viewPager.setCurrentItem(tab.getPosition());
-	}
+        /* Select the correct tab when changing page by swiping */
+        viewPager.setOnPageChangeListener(
+                new ViewPager.SimpleOnPageChangeListener() {
+                    @Override
+                    public void onPageSelected(int position) {
+                        getActionBar().setSelectedNavigationItem(position);
+                    }
+                }
+        );
 
-	public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-	}
 
-	public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
-	}
-	
-	private class SlideMenuClickListener implements ListView.OnItemClickListener {
+        /* Display initial view */
+        displayView(1); // 1 = Combat
 
-		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			displayView(position);
-		}
+        /* Prepare data objects */
+        attackData = new AttackData();
 
-	}
+    }
 
-	private void displayView(int menuIndex) {
-		String[] tabs = {};
-		
-		switch (menuIndex) {
-			case 0: // Roller
-				actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-				pagerAdapter = new RollerPagerAdapter(getSupportFragmentManager());
-				break;
-			case 1: // Combat roll
-				actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-				tabs = new String[]{
-					this.getString(R.string.parameters),
-                                        this.getString(R.string.armor),
-					this.getString(R.string.results)
-				};
-				pagerAdapter = new CombatPagerAdapter(getSupportFragmentManager());
-				break;
-		}
-		
-		viewPager.setAdapter(pagerAdapter);
+    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
+        viewPager.setCurrentItem(tab.getPosition());
+    }
 
-		actionBar.removeAllTabs();
-		for (String tab_name : tabs) {
-			actionBar.addTab(actionBar.newTab().setText(tab_name)
-					.setTabListener(this));
-		}
+    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
+    }
 
-		this.drawerLayout.closeDrawer(this.drawerListView);
+    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
+    }
 
-	}
+    public AttackData getAttackData() {
+        return attackData;
+    }
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+    private class SlideMenuClickListener implements ListView.OnItemClickListener {
 
-		this.getMenuInflater().inflate(R.menu.rollermenu, menu);
-		return true;
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            displayView(position);
+        }
 
-	}
+    }
 
-	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
-		// Sync the toggle state after onRestoreInstanceState has occurred.
-		actionBarDrawerToggle.syncState();
-	}
+    private void displayView(int menuIndex) {
+        String[] tabs = {};
 
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		super.onConfigurationChanged(newConfig);
-		actionBarDrawerToggle.onConfigurationChanged(newConfig);
-	}
+        switch (menuIndex) {
+            case 0: // Roller
+                actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+                pagerAdapter = new RollerPagerAdapter(getSupportFragmentManager());
+                break;
+            case 1: // Combat roll
+                actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+                tabs = new String[]{
+                    this.getString(R.string.parameters),
+                    this.getString(R.string.armor),
+                    this.getString(R.string.results)
+                };
+                pagerAdapter = new AttackPagerAdapter(getSupportFragmentManager());
+                break;
+        }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
+        viewPager.setAdapter(pagerAdapter);
 
-		if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
-			return true;
-		}
+        actionBar.removeAllTabs();
+        for (String tab_name : tabs) {
+            actionBar.addTab(actionBar.newTab().setText(tab_name)
+                    .setTabListener(this));
+        }
 
-		switch (item.getItemId()) {
-			case R.id.roller_settings:
-				Intent intent = new Intent(thisActivity, SettingsActivity.class);
-				thisActivity.startActivity(intent);
-				return true;
-			default:
-				return super.onOptionsItemSelected(item);
+        this.drawerLayout.closeDrawer(this.drawerListView);
 
-		}
+    }
 
-	}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        this.getMenuInflater().inflate(R.menu.rollermenu, menu);
+        return true;
+
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        actionBarDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        actionBarDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
+        switch (item.getItemId()) {
+            case R.id.roller_settings:
+                Intent intent = new Intent(thisActivity, SettingsActivity.class);
+                thisActivity.startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
+
+    }
 }

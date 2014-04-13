@@ -8,7 +8,7 @@ public class EditWatcherRanged implements TextWatcher {
 
 	private final RangeSeekBar seekBar;
 	private final EditText editText;
-	
+
 	private final Boolean watchMax;
 
 	public EditWatcherRanged(RangeSeekBar seekBar, EditText editText, Boolean watchMax) {
@@ -32,7 +32,12 @@ public class EditWatcherRanged implements TextWatcher {
 			} else {
 				seekBar.setSelectedMaxValue(p);
 			}
+			saveData(p);
 		}
+	}
+
+	public void saveData(int i) {
+
 	}
 
 }

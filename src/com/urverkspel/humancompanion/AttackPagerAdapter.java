@@ -4,9 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-public class CombatPagerAdapter extends FragmentPagerAdapter {
+public class AttackPagerAdapter extends FragmentPagerAdapter {
 
-    public CombatPagerAdapter(FragmentManager fm) {
+    public AttackPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
@@ -15,11 +15,11 @@ public class CombatPagerAdapter extends FragmentPagerAdapter {
 
         switch (i) {
             case 0:
-                return new CombatFragment();
+                return new AttackFragment();
             case 1:
-                return new CombatArmorFragment();
+                return new AttackArmorFragment();
             case 2:
-                return new CombatResultFragment();
+                return new AttacktResultFragment();
         }
 
         return null;
