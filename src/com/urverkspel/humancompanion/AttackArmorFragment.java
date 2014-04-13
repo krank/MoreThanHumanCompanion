@@ -1,15 +1,17 @@
 package com.urverkspel.humancompanion;
 
 import android.app.Activity;
-import android.support.v4.app.Fragment;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -23,7 +25,6 @@ public class AttackArmorFragment extends Fragment {
 
 	// General things
 	private View rootView;
-	private Activity parentActivity;
 	private ScrollView scrollView;
 
 	// UI elements
@@ -38,6 +39,8 @@ public class AttackArmorFragment extends Fragment {
 	private EditText coverageEditText;
 	private EditText protectionMinEditText;
 	private EditText protectionMaxEditText;
+	
+	private CheckBox useArmorCheckBox;
 
 	private RangeSeekBar<Integer> protectionSeekBar;
 
@@ -65,7 +68,6 @@ public class AttackArmorFragment extends Fragment {
 			Bundle savedInstanceState) {
 
 		// Create local references to general things
-		parentActivity = this.getActivity();
 		rootView = inflater.inflate(R.layout.fragment_combat_armor, container, false);
 
 		findInterfaceElements();
@@ -79,7 +81,7 @@ public class AttackArmorFragment extends Fragment {
 	}
 
 	private void addRangeSelector() {
-		protectionSeekBar = new RangeSeekBar<Integer>(0, 32, parentActivity);
+		protectionSeekBar = new RangeSeekBar<Integer>(0, 32, getActivity());
 
 		LinearLayout layout = (LinearLayout) rootView.findViewById(R.id.layout_protection);
 
@@ -108,11 +110,23 @@ public class AttackArmorFragment extends Fragment {
 		coverageEditText = (EditText) coverageLayout.findViewById(R.id.textbox);
 		protectionMinEditText = (EditText) protectionLayout.findViewById(R.id.textbox_min);
 		protectionMaxEditText = (EditText) protectionLayout.findViewById(R.id.textbox_max);
+		
+		// Checkbox
+		useArmorCheckBox = (CheckBox) rootView.findViewById(R.id.chk_use_armor);
+		
 
 	}
 
 	private void setListeners() {
 
+		// CHECKBOX LISTENER
+		useArmorCheckBox.setOnCheckedChangeListener(new CheckBox.OnCheckedChangeListener() {
+
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				sharedAttackData.useArmor = isChecked;
+			}
+		});
+		
 		// SEEKBAR LISTENERS
 		penetrationSeekBar.setOnSeekBarChangeListener(new SeekListener(penetrationEditText) {
 			@Override
@@ -197,9 +211,9 @@ public class AttackArmorFragment extends Fragment {
 	}
 
 	private void updateHeadings() {
-		penetrationHeader.setText(parentActivity.getString(R.string.weapon_penetration));
-		coverageHeader.setText(parentActivity.getString(R.string.armor_coverage));
-		protectionHeader.setText(parentActivity.getString(R.string.armor_protection));
+		penetrationHeader.setText(getActivity().getString(R.string.weapon_penetration));
+		coverageHeader.setText(getActivity().getString(R.string.armor_coverage));
+		protectionHeader.setText(getActivity().getString(R.string.armor_protection));
 
 	}
 

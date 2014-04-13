@@ -19,7 +19,7 @@ public class AttackPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 return new AttackArmorFragment();
             case 2:
-                return new AttacktResultFragment();
+                return new AttackResultFragment();
         }
 
         return null;
