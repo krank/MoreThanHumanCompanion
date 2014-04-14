@@ -2,8 +2,8 @@ package com.urverkspel.humancompanion;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import voltroll.VoltResult;
+import voltroll.VoltRoll;
 
 public class AttackResultFragment extends Fragment {
 
@@ -26,7 +28,6 @@ public class AttackResultFragment extends Fragment {
 
 	// TextViews
 	private TextView parametersTextView;
-	private TextView resultTextView;
 
 	// Button
 	private Button rollButton;
@@ -70,6 +71,9 @@ public class AttackResultFragment extends Fragment {
 
 		findInterfaceElements();
 		setListeners();
+		
+		prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		
 
 		return rootView;
 	}
@@ -89,9 +93,9 @@ public class AttackResultFragment extends Fragment {
 
 			public void onClick(View v) {
 
-				//System.out.println("Results before: " + sharedAttackData.hitResult + ", " + sharedAttackData.damageResult);
-				sharedAttackData.roll(false);
-				//System.out.println("Results after: " + sharedAttackData.hitResult + ", " + sharedAttackData.damageResult);
+				boolean useLuck = prefs.getBoolean("pref_use_luck", true);
+				
+				sharedAttackData.roll(useLuck);
 
 				displayResultFromData();
 			}
@@ -109,13 +113,6 @@ public class AttackResultFragment extends Fragment {
 			TextView toHitText = (TextView) hitRollDisplayLayout.findViewById(R.id.display_text);
 			TextView toHitIcon = (TextView) hitRollDisplayLayout.findViewById(R.id.display_icon);
 
-			toHitIcon.setText(String.valueOf(sharedAttackData.hitResult.result));
-			if (sharedAttackData.resultHits > 0) {
-				toHitIcon.setBackgroundResource(R.drawable.green_bkg);
-			} else {
-				toHitIcon.setBackgroundResource(R.drawable.red_bkg);
-			}
-
 			if (sharedAttackData.resultHits == 2) {
 				toHitHeader.setText(getActivity().getString(R.string.fullhit) + "!");
 			} else if (sharedAttackData.resultHits == 1) {
@@ -123,6 +120,25 @@ public class AttackResultFragment extends Fragment {
 			} else {
 				toHitHeader.setText(getActivity().getString(R.string.miss) + "!");
 			}
+			
+			
+			toHitIcon.setText(String.valueOf(sharedAttackData.hitResult.result));
+			
+			if (sharedAttackData.hitResult.wasLucky == VoltResult.LUCK_LUCKY) {
+				toHitIcon.setBackgroundResource(R.drawable.yellow_bkg);
+				toHitHeader.append(" (" + getActivity().getString(R.string.lucky) + ")");
+			} else if (sharedAttackData.hitResult.wasLucky == VoltResult.LUCK_UNLUCKY) {
+				toHitIcon.setBackgroundResource(R.drawable.black_bkg);
+				toHitHeader.append(" (" + getActivity().getString(R.string.unlucky) + ")");
+			} else if (sharedAttackData.resultHits > 0) {
+				toHitIcon.setBackgroundResource(R.drawable.green_bkg);
+			} else {
+				toHitIcon.setBackgroundResource(R.drawable.red_bkg);
+			}
+
+			
+			
+			
 
 			toHitText.setText(getActivity().getString(R.string.white)
 					+ " " + sharedAttackData.hitResult.white.value
@@ -168,6 +184,14 @@ public class AttackResultFragment extends Fragment {
 			TextView damageText = (TextView) damageDisplayLayout.findViewById(R.id.display_text);
 			TextView damageIcon = (TextView) damageDisplayLayout.findViewById(R.id.display_icon);
 
+			// Text box
+			damageText.setText(getActivity().getString(R.string.white)
+					+ " " + sharedAttackData.damageResult.white.value
+					+ " " + getActivity().getString(R.string.black)
+					+ " " + sharedAttackData.damageResult.black.value
+			);
+			
+			// Header & icon
 			if (sharedAttackData.resultDamage > 0) {
 				damageIcon.setBackgroundResource(R.drawable.green_bkg);
 				if (sharedAttackData.resultIsStun) {
@@ -179,14 +203,16 @@ public class AttackResultFragment extends Fragment {
 				damageHeader.setText(getActivity().getString(R.string.no_damage));
 				damageIcon.setBackgroundResource(R.drawable.red_bkg);
 			}
+			
+			if (sharedAttackData.damageResult.wasLucky == VoltResult.LUCK_LUCKY) {
+				damageIcon.setBackgroundResource(R.drawable.yellow_bkg);
+				damageHeader.append(" (" + getActivity().getString(R.string.lucky) + ")");
+			} else if (sharedAttackData.damageResult.wasLucky == VoltResult.LUCK_UNLUCKY) {
+				damageIcon.setBackgroundResource(R.drawable.black_bkg);
+				damageHeader.append(" (" + getActivity().getString(R.string.unlucky) + ")");
+			} else
 
 			damageIcon.setText(String.valueOf(sharedAttackData.resultDamage));
-
-			damageText.setText(getActivity().getString(R.string.white)
-					+ " " + sharedAttackData.damageResult.white.value
-					+ " " + getActivity().getString(R.string.black)
-					+ " " + sharedAttackData.damageResult.black.value
-			);
 
 			damageDisplayLayout.setVisibility(View.VISIBLE);
 		}

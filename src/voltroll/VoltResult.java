@@ -7,6 +7,12 @@ public class VoltResult {
 
 	public Boolean successful = true;
 	public Boolean bothSuccessful = false;
+	public int wasLucky;
+	
+	public static final int LUCK_UNLUCKY = -1;
+	public static final int LUCK_LUCKY = 1;
+	public static final int LUCK_NEITHER = 0;
+	
 	public int result;
 
 	public VoltResult(int level) {
@@ -27,6 +33,8 @@ public class VoltResult {
 
 	public VoltResult(int level, int threshold, Boolean useLuck, int blackValue, int whiteValue) {
 		
+		wasLucky = LUCK_NEITHER;
+		
 		// Create dice & roll them
 		white = new VoltDice("white", whiteValue);
 		black = new VoltDice("black", blackValue);
@@ -39,10 +47,15 @@ public class VoltResult {
 					// Is true if d.value is below level or luck rule is in effect
 					&& (d.value <= level || useLuck); // 
 		}
+		
+		if (black.value == 1 && useLuck) {
+			wasLucky = LUCK_LUCKY;
+		}
 
 		if (black.value == 20 && useLuck) {
 			result = maxResult(white.value, level);
 			successful = false;
+			wasLucky = LUCK_UNLUCKY;
 		} else if (black.success && white.success) {
 			result = Math.max(
 					maxResult(black.value, level),

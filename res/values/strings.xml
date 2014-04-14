@@ -49,6 +49,9 @@
 	<string name="fullhit">Full hit</string>
 	<string name="miss">Miss</string>
 	
+	<string name="lucky">Lucky</string>
+	<string name="unlucky">Unlucky</string>
+	
 	
 	<string name="armor_effect_header_off">Armor not active</string>
 	<string name="armor_effect_header_not_covered">Weak spot</string>

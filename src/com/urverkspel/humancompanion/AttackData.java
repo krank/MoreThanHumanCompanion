@@ -21,6 +21,7 @@ public class AttackData {
 	public int resultHits;
 	public int resultDamage;
 	public boolean resultIsStun;
+	public boolean resultUsedLuck;
 	public int resultArmorEffect;
 	/*
 	 0 Armor setting OFF
@@ -139,6 +140,7 @@ public class AttackData {
 		int effectivePenetration = penetration;
 		
 		resultIsStun = isStun;
+		this.resultUsedLuck = useLuck;
 
 		// HITTING
 		hitResult = new VoltResult(value, threshold, useLuck);
