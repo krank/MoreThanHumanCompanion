@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScrollView
+<LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/scroller"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
+	android:orientation="horizontal"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:baselineAligned="false"
 >
 	<LinearLayout 
 	
 		android:orientation="vertical"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
+		android:layout_width="0dp"
+		android:layout_weight="1"
+		android:layout_height="match_parent"
 		android:animateLayoutChanges="true"
 	>
 		<!-- PARAMETERS-->
@@ -22,7 +24,8 @@
 		<TextView
 			android:id="@+id/text_parameters"
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
+			android:layout_height="0dp"
+			android:layout_weight="1"
 			android:padding="5dp"
 		/>
 		
@@ -35,7 +38,25 @@
 			android:layout_margin="2dp"
 			android:text="@string/roll"
 		/>
+	</LinearLayout>
+	<LinearLayout 
+	
+		android:orientation="vertical"
+		android:layout_width="0dp"
+		android:layout_weight="1"
+		android:layout_height="wrap_content"
+		android:animateLayoutChanges="true"
 		
+	>
+			
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			style="?android:attr/listSeparatorTextViewStyle"
+			android:text="@string/results"
+			android:layout_marginBottom="5dp"
+		/>
+			
 		<!-- DAMAGE RESULT -->
 		<include 
 			layout="@layout/template_display_item"
@@ -55,4 +76,4 @@
 		/>
 		
 	</LinearLayout>
-</ScrollView>
+</LinearLayout>

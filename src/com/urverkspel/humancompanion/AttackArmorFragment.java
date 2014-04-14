@@ -39,7 +39,7 @@ public class AttackArmorFragment extends Fragment {
 	private EditText coverageEditText;
 	private EditText protectionMinEditText;
 	private EditText protectionMaxEditText;
-	
+
 	private CheckBox useArmorCheckBox;
 
 	private RangeSeekBar<Integer> protectionSeekBar;
@@ -110,10 +110,9 @@ public class AttackArmorFragment extends Fragment {
 		coverageEditText = (EditText) coverageLayout.findViewById(R.id.textbox);
 		protectionMinEditText = (EditText) protectionLayout.findViewById(R.id.textbox_min);
 		protectionMaxEditText = (EditText) protectionLayout.findViewById(R.id.textbox_max);
-		
+
 		// Checkbox
 		useArmorCheckBox = (CheckBox) rootView.findViewById(R.id.chk_use_armor);
-		
 
 	}
 
@@ -126,7 +125,7 @@ public class AttackArmorFragment extends Fragment {
 				sharedAttackData.useArmor = isChecked;
 			}
 		});
-		
+
 		// SEEKBAR LISTENERS
 		penetrationSeekBar.setOnSeekBarChangeListener(new SeekListener(penetrationEditText) {
 			@Override
@@ -145,10 +144,10 @@ public class AttackArmorFragment extends Fragment {
 			public void onRangeSeekBarValuesChanged(RangeSeekBar bar, Integer minValue, Integer maxValue) {
 				protectionMinEditText.setText(minValue.toString());
 				protectionMaxEditText.setText(maxValue.toString());
-				
+
 				sharedAttackData.protectionMin = minValue;
 				sharedAttackData.protectionMax = maxValue;
-				
+
 			}
 		});
 
@@ -218,16 +217,22 @@ public class AttackArmorFragment extends Fragment {
 	}
 
 	private void setFromData() {
+		if (sharedAttackData == null) {
+			AttackDataHolder hold = (AttackDataHolder) getActivity();
 
-		penetrationEditText.setText(String.valueOf(sharedAttackData.penetration));
-		coverageEditText.setText(String.valueOf(sharedAttackData.coverage));
-		protectionMinEditText.setText(String.valueOf(sharedAttackData.protectionMin));
-		protectionMaxEditText.setText(String.valueOf(sharedAttackData.protectionMax));
+			sharedAttackData = hold.getAttackData();
+		}
+		if (sharedAttackData != null) {
+			penetrationEditText.setText(String.valueOf(sharedAttackData.penetration));
+			coverageEditText.setText(String.valueOf(sharedAttackData.coverage));
+			protectionMinEditText.setText(String.valueOf(sharedAttackData.protectionMin));
+			protectionMaxEditText.setText(String.valueOf(sharedAttackData.protectionMax));
 
-		penetrationSeekBar.setProgress(sharedAttackData.penetration);
-		coverageSeekBar.setProgress(sharedAttackData.coverage);
-		protectionSeekBar.setSelectedMinValue(sharedAttackData.protectionMin);
-		protectionSeekBar.setSelectedMaxValue(sharedAttackData.protectionMax);
+			penetrationSeekBar.setProgress(sharedAttackData.penetration);
+			coverageSeekBar.setProgress(sharedAttackData.coverage);
+			protectionSeekBar.setSelectedMinValue(sharedAttackData.protectionMin);
+			protectionSeekBar.setSelectedMaxValue(sharedAttackData.protectionMax);
+		}
 
 	}
 

@@ -15,11 +15,12 @@
 		android:id="@+id/display_icon"
 		android:layout_width="48dp"
 		android:layout_height="48dp"
-		android:background="#ff000000"
+		android:background="@drawable/black_bkg"
 		android:layout_margin="3dp"
 		android:gravity="center"
 		android:textColor="#ffffffff"
-		android:textSize="24dp"
+		android:textSize="24sp"
+		android:paddingBottom="1dp"
 		/>
 	
 	<!-- The slider, including header-->

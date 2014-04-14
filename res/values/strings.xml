@@ -53,14 +53,14 @@
 	<string name="armor_effect_header_off">Armor not active</string>
 	<string name="armor_effect_header_not_covered">Weak spot</string>
 	<string name="armor_effect_header_fully_penetrated">Penetrated armor</string>
-	<string name="armor_effect_header_partially_penetrated">Softened the blow</string>
-	<string name="armor_effect_header_completely_protected">Fully protected</string>
+	<string name="armor_effect_header_partially_penetrated">Softened</string>
+	<string name="armor_effect_header_completely_protected">Deflected</string>
 	
 	<string name="armor_effect_desc_off">\"Use armor\" setting disabled.</string>
-	<string name="armor_effect_desc_not_covered">The attack hit an unprotected spot.</string>
-	<string name="armor_effect_desc_fully_penetrated">The attack went right through.</string>
+	<string name="armor_effect_desc_not_covered">Bypassed armor completely</string>
+	<string name="armor_effect_desc_fully_penetrated">Went right through.</string>
 	<string name="armor_effect_desc_partially_penetrated">The attack was slowed down.</string>
-	<string name="armor_effect_desc_completely_protected">The armor was fully effective.</string>
+	<string name="armor_effect_desc_completely_protected">No damage.</string>
 	
 	
 	<!-- Drawer items -->

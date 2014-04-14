@@ -1,12 +1,13 @@
 package com.urverkspel.humancompanion;
 
 import android.app.ActionBar;
-import android.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -36,11 +37,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     private ActionBar actionBar;
 
     // Data objects
-    private AttackData attackData;
+	private AttackDataFragment attackDataFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        
         setContentView(R.layout.main_activity);
 
         thisActivity = this;
@@ -86,9 +87,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         displayView(1); // 1 = Combat
 
         /* Prepare data objects */
-        attackData = new AttackData();
+		super.onCreate(savedInstanceState);
+		// Find the retained AttackData fragment
 
+		
     }
+	
+	
 
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
         viewPager.setCurrentItem(tab.getPosition());
@@ -101,8 +106,34 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     }
 
     public AttackData getAttackData() {
-        return attackData;
+		// If there's no attackDataFragment
+		if (attackDataFragment == null) {
+			// Find it, if it exists, using the support fragment manager
+			FragmentManager fm = getSupportFragmentManager();
+			attackDataFragment = (AttackDataFragment) fm.findFragmentByTag("attackData");
+			
+			// If it still does not exist, create a new one.
+			if (attackDataFragment == null) {
+				attackDataFragment = new AttackDataFragment();
+				FragmentTransaction ft = fm.beginTransaction();
+				ft.add(attackDataFragment, "attackData");
+				ft.commit();
+			}
+		}
+        return attackDataFragment.getData();
     }
+
+	public void onTabSelected(ActionBar.Tab tab, android.app.FragmentTransaction ft) {
+		viewPager.setCurrentItem(tab.getPosition());
+	}
+
+	public void onTabUnselected(ActionBar.Tab tab, android.app.FragmentTransaction ft) {
+		
+	}
+
+	public void onTabReselected(ActionBar.Tab tab, android.app.FragmentTransaction ft) {
+		
+	}
 
     private class SlideMenuClickListener implements ListView.OnItemClickListener {
 
@@ -178,8 +209,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-
         }
-
     }
 }

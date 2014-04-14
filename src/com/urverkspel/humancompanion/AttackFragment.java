@@ -44,11 +44,8 @@ public class AttackFragment extends Fragment {
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-
 		AttackDataHolder hold = (AttackDataHolder) activity;
-
 		sharedAttackData = hold.getAttackData();
-
 	}
 
 	@Override
@@ -66,9 +63,11 @@ public class AttackFragment extends Fragment {
 
 		findInterfaceElements();
 		updateHeadings(false);
-		setListeners();
+		
 
 		setFromData();
+		
+		setListeners();
 
 		return rootView;
 	}
@@ -133,7 +132,6 @@ public class AttackFragment extends Fragment {
 			}
 		});
 
-		
 		// EDITTEXT LISTENERS
 		valueEditText.addTextChangedListener(new EditWatcher(valueSeekBar, valueEditText) {
 			@Override
@@ -153,7 +151,7 @@ public class AttackFragment extends Fragment {
 				sharedAttackData.damage = i;
 			}
 		});
-		
+
 		// Fix seekbar + scroller issue
 		OnTouchListener overrideListener = new OnTouchListener() {
 
@@ -182,16 +180,24 @@ public class AttackFragment extends Fragment {
 		}
 		damageHeader.setText(a.getString(R.string.weapon_damage));
 	}
-	
-	private void setFromData() {
-		
-		valueEditText.setText(String.valueOf(sharedAttackData.value));
-		thresholdEditText.setText(String.valueOf(sharedAttackData.threshold));
-		damageEditText.setText(String.valueOf(sharedAttackData.damage));
 
-		valueSeekBar.setProgress(sharedAttackData.value);
-		thresholdSeekBar.setProgress(sharedAttackData.threshold);
-		damageSeekBar.setProgress(sharedAttackData.damage);
+	private void setFromData() {
+
+		if (sharedAttackData == null) {
+			AttackDataHolder hold = (AttackDataHolder) getActivity();
+
+			sharedAttackData = hold.getAttackData();
+		}
+		
+		if (sharedAttackData != null) {
+			valueEditText.setText(String.valueOf(sharedAttackData.value));
+			thresholdEditText.setText(String.valueOf(sharedAttackData.threshold));
+			damageEditText.setText(String.valueOf(sharedAttackData.damage));
+
+			valueSeekBar.setProgress(sharedAttackData.value);
+			thresholdSeekBar.setProgress(sharedAttackData.threshold);
+			damageSeekBar.setProgress(sharedAttackData.damage);
+		}
 	}
 
 }
