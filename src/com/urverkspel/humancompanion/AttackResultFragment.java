@@ -27,7 +27,8 @@ public class AttackResultFragment extends Fragment {
 	private LinearLayout extraDamageDisplayLayout;
 
 	// TextViews
-	private TextView parametersTextView;
+	private TextView attackParametersTextView;
+	private TextView armorParametersTextView;
 
 	// Button
 	private Button rollButton;
@@ -78,7 +79,8 @@ public class AttackResultFragment extends Fragment {
 	}
 
 	private void findInterfaceElements() {
-		parametersTextView = (TextView) rootView.findViewById(R.id.text_parameters);
+		attackParametersTextView = (TextView) rootView.findViewById(R.id.summary_attack_parameters);
+		armorParametersTextView = (TextView) rootView.findViewById(R.id.summary_armor_parameters);
 
 		rollButton = (Button) rootView.findViewById(R.id.button_roll);
 
@@ -248,14 +250,24 @@ public class AttackResultFragment extends Fragment {
 		sb.append(getActivity().getString(R.string.value)).append(": ").append(sharedAttackData.value).append("\n");
 		sb.append(getActivity().getString(R.string.threshold)).append(": ").append(sharedAttackData.threshold).append("\n");
 		sb.append(getActivity().getString(R.string.weapon_damage)).append(": ").append(sharedAttackData.damage).append("\n");
+		
+		attackParametersTextView.setText(sb.toString());
+		
+		sb = new StringBuilder();
+		
 		if (sharedAttackData.useArmor) {
 			sb.append(getActivity().getString(R.string.weapon_penetration)).append(": ").append(sharedAttackData.penetration).append("\n");
 			sb.append(getActivity().getString(R.string.armor_coverage)).append(": ").append(sharedAttackData.coverage).append("\n");
 			sb.append(getActivity().getString(R.string.armor_protection)).append(": ")
 					.append(sharedAttackData.protectionMin).append("-")
-					.append(sharedAttackData.protectionMax).append("\n");
+					.append(sharedAttackData.protectionMax);
+			
+			armorParametersTextView.setText(sb.toString());
+			armorParametersTextView.setVisibility(View.VISIBLE);
+		} else {
+			armorParametersTextView.setVisibility(View.GONE);
 		}
-		parametersTextView.setText(sb.toString());
+		
 	}
 
 	public void attachSharedAttackData() {
