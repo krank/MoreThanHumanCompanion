@@ -37,6 +37,9 @@ public class AttackFragment extends Fragment {
 	private EditText valueEditText;
 	private EditText thresholdEditText;
 	private EditText damageEditText;
+	
+	RadioGroup combatType;
+	RadioGroup damageType;
 
 	// Data reference
 	public AttackData sharedAttackData;
@@ -59,7 +62,7 @@ public class AttackFragment extends Fragment {
 			Bundle savedInstanceState) {
 
 		// Create local references to general things
-		rootView = inflater.inflate(R.layout.fragment_combat, container, false);
+		rootView = inflater.inflate(R.layout.fragment_attack, container, false);
 
 		findInterfaceElements();
 		updateHeadings(false);
@@ -79,6 +82,10 @@ public class AttackFragment extends Fragment {
 		LinearLayout valueLayout = (LinearLayout) rootView.findViewById(R.id.slider_value);
 		LinearLayout thresholdLayout = (LinearLayout) rootView.findViewById(R.id.slider_threshold);
 		LinearLayout damageLayout = (LinearLayout) rootView.findViewById(R.id.slider_damage);
+		
+		// Radio groups
+		combatType = (RadioGroup) rootView.findViewById(R.id.radio_combat_type);
+		damageType = (RadioGroup) rootView.findViewById(R.id.radio_damage_type);
 
 		// Headers
 		valueHeader = (TextView) valueLayout.findViewById(R.id.header);
@@ -99,7 +106,6 @@ public class AttackFragment extends Fragment {
 	private void setListeners() {
 
 		// COMBAT TYPE
-		RadioGroup combatType = (RadioGroup) rootView.findViewById(R.id.radio_combat_type);
 
 		combatType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
@@ -108,6 +114,19 @@ public class AttackFragment extends Fragment {
 					updateHeadings(true);
 				} else {
 					updateHeadings(false);
+				}
+			}
+		});
+		
+		// DAMAGE TYPE
+		
+		damageType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
+			public void onCheckedChanged(RadioGroup group, int checkedId) {
+				if (checkedId == R.id.radio_injury) {
+					sharedAttackData.isStun = false;
+				} else {
+					sharedAttackData.isStun = true;
 				}
 			}
 		});

@@ -66,7 +66,7 @@ public class AttackResultFragment extends Fragment {
 			Bundle savedInstanceState) {
 
 		// Create local references to general things
-		rootView = inflater.inflate(R.layout.fragment_combat_result, container, false);
+		rootView = inflater.inflate(R.layout.fragment_attack_result, container, false);
 
 		findInterfaceElements();
 		setListeners();

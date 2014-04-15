@@ -68,7 +68,7 @@ public class AttackArmorFragment extends Fragment {
 			Bundle savedInstanceState) {
 
 		// Create local references to general things
-		rootView = inflater.inflate(R.layout.fragment_combat_armor, container, false);
+		rootView = inflater.inflate(R.layout.fragment_attack_armor, container, false);
 
 		findInterfaceElements();
 		addRangeSelector();

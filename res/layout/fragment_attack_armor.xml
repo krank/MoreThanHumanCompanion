@@ -18,6 +18,8 @@
             android:layout_height="wrap_content"
             android:text="@string/use_armor" />
 
+		<View style="@style/Divider"/>
+		
         <!-- Penetration sliderbar -->
         <include 
             layout="@layout/template_sliderbar"

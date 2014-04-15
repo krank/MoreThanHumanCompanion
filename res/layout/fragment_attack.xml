@@ -23,7 +23,6 @@
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
-				android:checked="true"
 				android:text="@string/close_combat"
 			/>
 			<RadioButton 
@@ -36,6 +35,34 @@
 			/>	
 		
 		</RadioGroup>
+		
+		<View style="@style/Divider"/>
+		
+		<RadioGroup
+			android:id="@+id/radio_damage_type"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+		>
+			<RadioButton 
+				android:id="@+id/radio_injury"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:checked="true"
+				android:text="@string/injury"
+			/>
+			<RadioButton 
+				android:id="@+id/radio_stun"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:text="@string/stun"
+			/>	
+		
+		</RadioGroup>
+		
+		<View style="@style/Divider"/>
 	
 		<!-- RKF/Attack sliderbar -->
 		<include 
