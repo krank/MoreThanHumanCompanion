@@ -2,12 +2,11 @@
 <resources>
     <string name="app_name">&gt;Human Companion</string>
 	
+	<!-- Rolls -->
 	<string name="parameters">Parameters</string>
-	<string name="details">Details</string>
 	<string name="value">Value</string>
 	<string name="threshold">Threshold</string>
-	<string name="advanced">Advanced</string>
-	<string name="use_luck">Use "Luck" rule</string>
+	
 	<string name="roll">Roll</string>
 	<string name="results">Results</string>
 	
@@ -18,33 +17,36 @@
 	<string name="white">White</string>
 	<string name="black">Black</string>
 	
-	
+	<!-- Settings -->
 	<string name="settings">Settings</string>
+	<string name="advanced">Advanced</string>
+	<string name="use_luck">Use "Luck" rule</string>
 	
-	<!-- Combat -->
+	<!-- Weapon parameters -->
 	<string name="weapon_penetration">Weapon penetration</string>
 	<string name="weapon_damage">Weapon damage</string>
 	<string name="weapon_damage_type">Weapon damage type</string>
 	<string name="injury">Injury</string>
 	<string name="stun">Stun</string>
-	<string name="no_damage">No damage</string>
-	
+
+	<!-- Attack/weapon type -->
 	<string name="attack_type">Attack type</string>
 	<string name="close_combat">Close combat</string>
 	<string name="ranged_combat">Ranged combat</string>
 	
-	<string name="rkf">RKF</string>
+	<string name="rcf">RCF</string>
 	<string name="attack">Attack</string>
 	<string name="defense">Defense</string>
 	<string name="range">Range</string>
 	
+	<!-- Armor -->
 	<string name="armor">Armor</string>
 	<string name="use_armor">Use armor</string>
 	
 	<string name="armor_coverage">Armor coverage</string>
 	<string name="armor_protection">Armor protection</string>
 	
-	
+	<!-- Attack result -->
 	<string name="hit">Hit</string>
 	<string name="fullhit">Full hit</string>
 	<string name="miss">Miss</string>
@@ -52,7 +54,9 @@
 	<string name="lucky">Lucky</string>
 	<string name="unlucky">Unlucky</string>
 	
+	<string name="no_damage">No damage</string>
 	
+	<!-- Armor result descriptions -->
 	<string name="armor_effect_header_off">Armor not active</string>
 	<string name="armor_effect_header_not_covered">Weak spot</string>
 	<string name="armor_effect_header_fully_penetrated">Penetrated armor</string>
@@ -68,8 +72,8 @@
 	
 	<!-- Drawer items -->
 	<string-array name="drawer_items">
-		<item>Dice roller</item>
-		<item>Combat</item>
+		<item>Roller</item>
+		<item>Attack</item>
 	</string-array>
 	
 	<string name="drawer_open">Open navigation drawer</string>

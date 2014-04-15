@@ -2,11 +2,11 @@
 <resources>
     <string name="app_name">&gt;Human Companion</string>
 	
+	<!-- Tärningsslag -->
 	<string name="parameters">Parametrar</string>
 	<string name="value">Värde</string>
 	<string name="threshold">Tröskel</string>
-	<string name="advanced">Avancerat</string>
-	<string name="use_luck">Använd "tur"-regeln</string>
+	
 	<string name="roll">Rulla</string>
 	<string name="results">Resultat</string>
 	
@@ -14,5 +14,71 @@
 	<string name="success">Lyckat</string>
 	<string name="double_success">2x Lyckat</string>
 	
+	<string name="white">Vit</string>
+	<string name="black">Svart</string>
+	
+	<!-- Inställningar -->
 	<string name="settings">Inställningar</string>
+	<string name="advanced">Avancerat</string>
+	<string name="use_luck">Använd "tur"-regeln</string>
+	
+	<!-- Vapenparametrar -->
+	<string name="weapon_penetration">Genomslag</string>
+	<string name="weapon_damage">Vapenskada</string>
+	<string name="weapon_damage_type">Skadetyp</string>
+	<string name="injury">Trauma</string>
+	<string name="stun">Chock</string>
+
+	<!-- Attack/weapon type -->
+	<string name="attack_type">Attacktyp</string>
+	<string name="close_combat">Närstrid</string>
+	<string name="ranged_combat">Avståndsstrid</string>
+	
+	<string name="rcf">RKF</string>
+	<string name="attack">Anfall</string>
+	<string name="defense">Försvar</string>
+	<string name="range">Avstånd</string>
+	
+	<!-- Armor -->
+	<string name="armor">Rustning</string>
+	<string name="use_armor">Använd rustning</string>
+	
+	<string name="armor_coverage">Täckning</string>
+	<string name="armor_protection">Pansar</string>
+	
+	<!-- Attack result -->
+	<string name="hit">Träff</string>
+	<string name="fullhit">Fullträff</string>
+	<string name="miss">Miss</string>
+	
+	<string name="lucky">Tur</string>
+	<string name="unlucky">Otur</string>
+	
+	<string name="no_damage">Ingen skada</string>
+	
+	<!-- Armor result descriptions -->
+	<string name="armor_effect_header_off">Rustning inaktiv</string>
+	<string name="armor_effect_header_not_covered">Träffade blotta</string>
+	<string name="armor_effect_header_fully_penetrated">Slog igenom</string>
+	<string name="armor_effect_header_partially_penetrated">Hindrad</string>
+	<string name="armor_effect_header_completely_protected">Skyddad</string>
+	
+	<string name="armor_effect_desc_off">\"Använd rustning\" avstängt.</string>
+	<string name="armor_effect_desc_not_covered">Missade rustningen</string>
+	<string name="armor_effect_desc_fully_penetrated">Rustningen hade ingen effekt.</string>
+	<string name="armor_effect_desc_partially_penetrated">Anfallet stoppades delvis.</string>
+	<string name="armor_effect_desc_completely_protected">Ingen skada.</string>
+	
+	
+	<!-- Drawer items -->
+	<string-array name="drawer_items">
+		<item>Rulla tärning</item>
+		<item>Anfall</item>
+	</string-array>
+	
+	<string name="drawer_open">Öppna navigationsmeny</string>
+	<string name="drawer_close">Stäng navigationsmeny</string>
+	
+	
+	
 </resources>

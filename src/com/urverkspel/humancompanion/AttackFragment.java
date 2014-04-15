@@ -175,7 +175,7 @@ public class AttackFragment extends Fragment {
 			valueHeader.setText(a.getString(R.string.attack));
 			thresholdHeader.setText(a.getString(R.string.defense));
 		} else {
-			valueHeader.setText(a.getString(R.string.rkf));
+			valueHeader.setText(a.getString(R.string.rcf));
 			thresholdHeader.setText(a.getString(R.string.range));
 		}
 		damageHeader.setText(a.getString(R.string.weapon_damage));

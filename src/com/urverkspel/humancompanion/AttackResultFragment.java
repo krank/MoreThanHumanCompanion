@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import voltroll.VoltResult;
-import voltroll.VoltRoll;
 
 public class AttackResultFragment extends Fragment {
 
@@ -221,13 +220,13 @@ public class AttackResultFragment extends Fragment {
 	private void getParameters() {
 		StringBuilder sb = new StringBuilder();
 
-		sb.append("Value: ").append(sharedAttackData.value).append("\n");
-		sb.append("Threshold: ").append(sharedAttackData.threshold).append("\n");
-		sb.append("Damage: ").append(sharedAttackData.damage).append("\n");
+		sb.append(getActivity().getString(R.string.value)).append(": ").append(sharedAttackData.value).append("\n");
+		sb.append(getActivity().getString(R.string.threshold)).append(": ").append(sharedAttackData.threshold).append("\n");
+		sb.append(getActivity().getString(R.string.weapon_damage)).append(": ").append(sharedAttackData.damage).append("\n");
 		if (sharedAttackData.useArmor) {
-			sb.append("Penetration: ").append(sharedAttackData.penetration).append("\n");
-			sb.append("Coverage: ").append(sharedAttackData.coverage).append("\n");
-			sb.append("Protection: ")
+			sb.append(getActivity().getString(R.string.weapon_penetration)).append(": ").append(sharedAttackData.penetration).append("\n");
+			sb.append(getActivity().getString(R.string.armor_coverage)).append(": ").append(sharedAttackData.coverage).append("\n");
+			sb.append(getActivity().getString(R.string.armor_protection)).append(": ")
 					.append(sharedAttackData.protectionMin).append("-")
 					.append(sharedAttackData.protectionMax).append("\n");
 		}
