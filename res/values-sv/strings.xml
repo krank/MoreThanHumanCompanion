@@ -20,7 +20,11 @@
 	<!-- Inställningar -->
 	<string name="settings">Inställningar</string>
 	<string name="advanced">Avancerat</string>
-	<string name="use_luck">Använd "tur"-regeln</string>
+	<string name="use_luck">Tur</string>
+	<string name="use_luck_summary">Använd "tur"-regeln</string>
+	
+	<string name="use_extra_injury">Bonustrauma</string>
+	<string name="use_extra_injury_summary">Extra trumaskada vid fullträff med Chockskada</string>
 	
 	<!-- Vapenparametrar -->
 	<string name="weapon_penetration">Genomslag</string>

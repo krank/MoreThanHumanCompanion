@@ -6,6 +6,13 @@
 		<CheckBoxPreference
 			android:key="pref_use_luck"
 			android:title="@string/use_luck"
+			android:summary="@string/use_luck_summary"
+			android:defaultValue="true"
+		/>
+		<CheckBoxPreference
+			android:key="pref_extra_injury"
+			android:title="@string/use_extra_injury"
+			android:summary="@string/use_extra_injury_summary"
 			android:defaultValue="true"
 		/>
 	</PreferenceCategory>

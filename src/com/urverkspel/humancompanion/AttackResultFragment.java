@@ -24,6 +24,7 @@ public class AttackResultFragment extends Fragment {
 	private LinearLayout hitRollDisplayLayout;
 	private LinearLayout armorDisplayLayout;
 	private LinearLayout damageDisplayLayout;
+	private LinearLayout extraDamageDisplayLayout;
 
 	// TextViews
 	private TextView parametersTextView;
@@ -70,9 +71,8 @@ public class AttackResultFragment extends Fragment {
 
 		findInterfaceElements();
 		setListeners();
-		
+
 		prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		
 
 		return rootView;
 	}
@@ -85,6 +85,7 @@ public class AttackResultFragment extends Fragment {
 		hitRollDisplayLayout = (LinearLayout) rootView.findViewById(R.id.display_result_hitroll);
 		armorDisplayLayout = (LinearLayout) rootView.findViewById(R.id.display_result_armor);
 		damageDisplayLayout = (LinearLayout) rootView.findViewById(R.id.display_result_damage);
+		extraDamageDisplayLayout = (LinearLayout) rootView.findViewById(R.id.display_result_extra_damage);
 	}
 
 	private void setListeners() {
@@ -93,18 +94,24 @@ public class AttackResultFragment extends Fragment {
 			public void onClick(View v) {
 
 				boolean useLuck = prefs.getBoolean("pref_use_luck", true);
-				
-				sharedAttackData.roll(useLuck);
+				boolean useExtraInjury = prefs.getBoolean("pref_extra_injury", true);
 
+				sharedAttackData.roll(useLuck, useExtraInjury);
 				displayResultFromData();
+				
 			}
 		});
 	}
 
 	private void displayResultFromData() {
+		
+		// HIDE DISPLAYS
 		hitRollDisplayLayout.setVisibility(View.GONE);
 		armorDisplayLayout.setVisibility(View.GONE);
 		damageDisplayLayout.setVisibility(View.GONE);
+		extraDamageDisplayLayout.setVisibility(View.GONE);
+
+		// IF THERE ARE HIT AND DAMAGE RESULTS...
 		if (sharedAttackData.hitResult != null && sharedAttackData.damageResult != null) {
 
 			// TOHIT DISPLAY
@@ -112,43 +119,43 @@ public class AttackResultFragment extends Fragment {
 			TextView toHitText = (TextView) hitRollDisplayLayout.findViewById(R.id.display_text);
 			TextView toHitIcon = (TextView) hitRollDisplayLayout.findViewById(R.id.display_icon);
 
-			if (sharedAttackData.resultHits == 2) {
+			// Header
+			if (sharedAttackData.hitResult.bothSuccessful) {
 				toHitHeader.setText(getActivity().getString(R.string.fullhit) + "!");
-			} else if (sharedAttackData.resultHits == 1) {
+			} else if (sharedAttackData.hitResult.successful) {
 				toHitHeader.setText(getActivity().getString(R.string.hit) + "!");
 			} else {
 				toHitHeader.setText(getActivity().getString(R.string.miss) + "!");
 			}
-			
-			
+
+			// Icon
 			toHitIcon.setText(String.valueOf(sharedAttackData.hitResult.result));
-			
+
 			if (sharedAttackData.hitResult.wasLucky == VoltResult.LUCK_LUCKY) {
 				toHitIcon.setBackgroundResource(R.drawable.yellow_bkg);
 				toHitHeader.append(" (" + getActivity().getString(R.string.lucky) + ")");
 			} else if (sharedAttackData.hitResult.wasLucky == VoltResult.LUCK_UNLUCKY) {
 				toHitIcon.setBackgroundResource(R.drawable.black_bkg);
 				toHitHeader.append(" (" + getActivity().getString(R.string.unlucky) + ")");
-			} else if (sharedAttackData.resultHits > 0) {
+			} else if (sharedAttackData.hitResult.successful) {
 				toHitIcon.setBackgroundResource(R.drawable.green_bkg);
 			} else {
 				toHitIcon.setBackgroundResource(R.drawable.red_bkg);
 			}
 
-			
-			
-			
-
+			// Text
 			toHitText.setText(getActivity().getString(R.string.white)
 					+ " " + sharedAttackData.hitResult.white.value
 					+ " " + getActivity().getString(R.string.black)
 					+ " " + sharedAttackData.hitResult.black.value
 			);
 
+			// Make visible
 			hitRollDisplayLayout.setVisibility(View.VISIBLE);
 
 			// ARMOR DISPLAY
-			if (sharedAttackData.resultHits > 0 && sharedAttackData.resultArmorEffect != AttackData.ARMOR_OFF) {
+			// Only use if the attack hit and armor rules are active
+			if (sharedAttackData.hitResult.successful && sharedAttackData.resultArmorEffect != AttackData.ARMOR_OFF) {
 
 				TextView armorHeader = (TextView) armorDisplayLayout.findViewById(R.id.display_header);
 				TextView armorText = (TextView) armorDisplayLayout.findViewById(R.id.display_text);
@@ -179,42 +186,60 @@ public class AttackResultFragment extends Fragment {
 			}
 
 			// DAMAGE DISPLAY
-			TextView damageHeader = (TextView) damageDisplayLayout.findViewById(R.id.display_header);
-			TextView damageText = (TextView) damageDisplayLayout.findViewById(R.id.display_text);
-			TextView damageIcon = (TextView) damageDisplayLayout.findViewById(R.id.display_icon);
+			this.buildDamageDisplay(damageDisplayLayout, sharedAttackData.damageResult, sharedAttackData.resultIsStun);
 
-			// Text box
-			damageText.setText(getActivity().getString(R.string.white)
-					+ " " + sharedAttackData.damageResult.white.value
-					+ " " + getActivity().getString(R.string.black)
-					+ " " + sharedAttackData.damageResult.black.value
-			);
-			
-			// Header & icon
-			if (sharedAttackData.resultDamage > 0) {
-				damageIcon.setBackgroundResource(R.drawable.green_bkg);
-				if (sharedAttackData.resultIsStun) {
-					damageHeader.setText(sharedAttackData.resultDamage + " " + getActivity().getString(R.string.stun));
-				} else {
-					damageHeader.setText(sharedAttackData.resultDamage + " " + getActivity().getString(R.string.injury));
-				}
-			} else {
-				damageHeader.setText(getActivity().getString(R.string.no_damage));
-				damageIcon.setBackgroundResource(R.drawable.red_bkg);
+			// EXTRA DAMAGE
+			if (sharedAttackData.extraDamageResult != null) {
+				this.buildDamageDisplay(extraDamageDisplayLayout, sharedAttackData.extraDamageResult, false);
 			}
-			
-			if (sharedAttackData.damageResult.wasLucky == VoltResult.LUCK_LUCKY) {
-				damageIcon.setBackgroundResource(R.drawable.yellow_bkg);
-				damageHeader.append(" (" + getActivity().getString(R.string.lucky) + ")");
-			} else if (sharedAttackData.damageResult.wasLucky == VoltResult.LUCK_UNLUCKY) {
-				damageIcon.setBackgroundResource(R.drawable.black_bkg);
-				damageHeader.append(" (" + getActivity().getString(R.string.unlucky) + ")");
-			} else
-
-			damageIcon.setText(String.valueOf(sharedAttackData.resultDamage));
-
-			damageDisplayLayout.setVisibility(View.VISIBLE);
 		}
+	}
+
+	private String buildDiceResults(VoltResult vr) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(getActivity().getString(R.string.white)).append(" ");
+		sb.append(vr.white.value);
+
+		sb.append(" ");
+
+		sb.append(getActivity().getString(R.string.black)).append(" ");
+		sb.append(vr.black.value);
+
+		return sb.toString();
+	}
+
+	private void buildDamageDisplay(LinearLayout layout, VoltResult result, boolean isStun) {
+		TextView header = (TextView) layout.findViewById(R.id.display_header);
+		TextView text = (TextView) layout.findViewById(R.id.display_text);
+		TextView icon = (TextView) layout.findViewById(R.id.display_icon);
+
+		// Text box
+		text.setText(buildDiceResults(result));
+
+		// Header & icon
+		if (result.successful) {
+			icon.setBackgroundResource(R.drawable.green_bkg);
+			if (isStun) {
+				header.setText(result.result + " " + getActivity().getString(R.string.stun));
+			} else {
+				header.setText(result.result + " " + getActivity().getString(R.string.injury));
+			}
+		} else {
+			header.setText(getActivity().getString(R.string.no_damage));
+			icon.setBackgroundResource(R.drawable.red_bkg);
+		}
+
+		icon.setText(String.valueOf(result.result));
+
+		if (result.wasLucky == VoltResult.LUCK_LUCKY) {
+			icon.setBackgroundResource(R.drawable.yellow_bkg);
+			header.append(" (" + getActivity().getString(R.string.lucky) + ")");
+		} else if (result.wasLucky == VoltResult.LUCK_UNLUCKY) {
+			icon.setBackgroundResource(R.drawable.black_bkg);
+			header.append(" (" + getActivity().getString(R.string.unlucky) + ")");
+		}
+
+		layout.setVisibility(View.VISIBLE);
 	}
 
 	private void getParameters() {

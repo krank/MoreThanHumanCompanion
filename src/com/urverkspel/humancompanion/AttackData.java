@@ -17,9 +17,10 @@ public class AttackData {
 
 	public VoltResult hitResult;
 	public VoltResult damageResult;
+	public VoltResult extraDamageResult;
 
-	public int resultHits;
 	public int resultDamage;
+	public int resultExtraDamage;
 	public boolean resultIsStun;
 	public boolean resultUsedLuck;
 	public int resultArmorEffect;
@@ -77,15 +78,15 @@ public class AttackData {
 		sb.append(hitResult.black.value);
 		sb.append("\n");
 
-		if (resultHits == 2) {
+		if (damageResult.bothSuccessful) {
 			sb.append("FULL HIT!\n");
-		} else if (resultHits == 1) {
+		} else if (damageResult.successful) {
 			sb.append("Hit!\n");
 		} else {
 			sb.append("Miss!\n");
 		}
 
-		if (resultHits > 0) {
+		if (damageResult.successful) {
 			switch (resultArmorEffect) {
 				case ARMOR_OFF:
 					break;
@@ -134,11 +135,14 @@ public class AttackData {
 		return sb.toString();
 	}
 
-	public void roll(boolean useLuck) {
+	public void roll(boolean useLuck, boolean useExtraInjury) {
+		
+		hitResult = null;
+		damageResult = null;
 
 		int effectiveDamage = damage;
 		int effectivePenetration = penetration;
-		
+
 		resultIsStun = isStun;
 		this.resultUsedLuck = useLuck;
 
@@ -148,9 +152,6 @@ public class AttackData {
 		// full hit = increase effective damage
 		if (hitResult.bothSuccessful) {
 			effectiveDamage += 5;
-			resultHits = 2;
-		} else if (hitResult.successful) {
-			resultHits = 1;
 		}
 
 		if (hitResult.successful) {
@@ -175,19 +176,31 @@ public class AttackData {
 			} else {
 				resultArmorEffect = ARMOR_OFF;
 			}
-
-			// Damage
-			damageResult = new VoltResult(effectiveDamage, useLuck);
-
-			if (damageResult.successful) {
-				resultDamage = damageResult.result;
-			} else {
-				resultDamage = 0;
-			}
-		} else {
-			resultHits = 0;
 		}
 
+		// Damage
+		damageResult = new VoltResult(effectiveDamage, useLuck);
+
+		if (damageResult.successful) {
+			resultDamage = damageResult.result;
+		} else {
+			resultDamage = 0;
+		}
+
+		// Extra damage
+		if (hitResult.bothSuccessful && resultIsStun && useExtraInjury) {
+
+			extraDamageResult = new VoltResult(damage, useLuck);
+
+			if (extraDamageResult.successful) {
+				resultExtraDamage = extraDamageResult.result;
+			} else {
+				resultExtraDamage = 0;
+			}
+
+		} else {
+			extraDamageResult = null;
+		}
 	}
 
 }

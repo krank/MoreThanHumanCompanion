@@ -20,7 +20,12 @@
 	<!-- Settings -->
 	<string name="settings">Settings</string>
 	<string name="advanced">Advanced</string>
-	<string name="use_luck">Use "Luck" rule</string>
+	
+	<string name="use_luck">Luck</string>
+	<string name="use_luck_summary">Use "Luck" rule</string>
+	
+	<string name="use_extra_injury">Bonus injury</string>
+	<string name="use_extra_injury_summary">Extra injury for full hits with Stun attacks</string>
 	
 	<!-- Weapon parameters -->
 	<string name="weapon_penetration">Weapon penetration</string>

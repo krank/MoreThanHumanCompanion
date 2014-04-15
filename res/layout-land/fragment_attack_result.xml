@@ -63,6 +63,12 @@
 			android:id="@+id/display_result_damage"
 		/>
 		
+		<!-- EXTRA DAMAGE RESULT -->
+		<include 
+			layout="@layout/template_display_item"
+			android:id="@+id/display_result_extra_damage"
+		/>
+		
 		<!-- ARMOR RESULT -->
 		<include 
 			layout="@layout/template_display_item"
