@@ -17,6 +17,12 @@ import android.widget.TextView;
 
 import voltroll.VoltResult;
 
+/* TODO:
+ - Implement Fragment usage to handle rotations
+*/
+
+
+
 public class RollerFragment extends Fragment {
 
 	// This view
