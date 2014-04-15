@@ -146,11 +146,7 @@ public class AttackResultFragment extends Fragment {
 			}
 
 			// Text
-			toHitText.setText(getActivity().getString(R.string.white)
-					+ " " + sharedAttackData.hitResult.white.value
-					+ " " + getActivity().getString(R.string.black)
-					+ " " + sharedAttackData.hitResult.black.value
-			);
+			toHitText.setText(MainActivity.buildDiceResults(sharedAttackData.hitResult, getActivity()));
 
 			// Make visible
 			hitRollDisplayLayout.setVisibility(View.VISIBLE);
@@ -197,26 +193,13 @@ public class AttackResultFragment extends Fragment {
 		}
 	}
 
-	private String buildDiceResults(VoltResult vr) {
-		StringBuilder sb = new StringBuilder();
-		sb.append(getActivity().getString(R.string.white)).append(" ");
-		sb.append(vr.white.value);
-
-		sb.append(" ");
-
-		sb.append(getActivity().getString(R.string.black)).append(" ");
-		sb.append(vr.black.value);
-
-		return sb.toString();
-	}
-
 	private void buildDamageDisplay(LinearLayout layout, VoltResult result, boolean isStun) {
 		TextView header = (TextView) layout.findViewById(R.id.display_header);
 		TextView text = (TextView) layout.findViewById(R.id.display_text);
 		TextView icon = (TextView) layout.findViewById(R.id.display_icon);
 
 		// Text box
-		text.setText(buildDiceResults(result));
+		text.setText(MainActivity.buildDiceResults(result, getActivity()));
 
 		// Header & icon
 		if (result.successful) {

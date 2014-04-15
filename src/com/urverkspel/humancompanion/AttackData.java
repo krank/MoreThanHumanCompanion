@@ -1,6 +1,5 @@
 package com.urverkspel.humancompanion;
 
-import android.app.Activity;
 import voltroll.VoltResult;
 
 public class AttackData {
@@ -22,7 +21,7 @@ public class AttackData {
 	public int resultDamage;
 	public int resultExtraDamage;
 	public boolean resultIsStun;
-	public boolean resultUsedLuck;
+	//public boolean resultUsedLuck;
 	public int resultArmorEffect;
 	/*
 	 0 Armor setting OFF
@@ -144,7 +143,7 @@ public class AttackData {
 		int effectivePenetration = penetration;
 
 		resultIsStun = isStun;
-		this.resultUsedLuck = useLuck;
+		//this.resultUsedLuck = useLuck;
 
 		// HITTING
 		hitResult = new VoltResult(value, threshold, useLuck);

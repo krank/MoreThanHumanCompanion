@@ -1,15 +1,15 @@
 package com.urverkspel.humancompanion;
 
 import android.app.ActionBar;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Menu;
@@ -18,8 +18,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import voltroll.VoltResult;
 
-public class MainActivity extends FragmentActivity implements ActionBar.TabListener, AttackDataHolder {
+public class MainActivity extends FragmentActivity implements ActionBar.TabListener, RollDataHolder, AttackDataHolder {
 
 	// Drawer things
 	private String[] drawerListItems;
@@ -31,7 +32,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	private MainActivity thisActivity;
 
 	// Pager things
-	private ViewPager viewPager;
 	private ContainerFragment currentContainerFragment;
 
 	// Tab things
@@ -39,6 +39,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
 	// Data objects
 	private AttackDataFragment attackDataFragment;
+	private RollDataFragment rollDataFragment;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -72,37 +73,26 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		actionBar = getActionBar();
 		
 		super.onCreate(savedInstanceState);
-
-		/* Pager things */
-		// viewPager = (ViewPager) findViewById(R.id.pager);
-		
-
-		/* Select the correct tab when changing page by swiping */
-		/*viewPager.setOnPageChangeListener(
-				new ViewPager.SimpleOnPageChangeListener() {
-					@Override
-					public void onPageSelected(int position) {
-						getActionBar().setSelectedNavigationItem(position);
-					}
-				}
-		);*/
-
-		/*pagerAdapter = new MultiPagerAdapter(getSupportFragmentManager());
-		viewPager.setAdapter(pagerAdapter);*/
-
-		/* Display initial view */
-		//displayView(0); // 1 = Combat
-
-		
-		
-		
-
-		/* Prepare data objects */
-		
-		// Find the retained AttackData fragment
-
 	}
 
+	public RollData getRollData() {
+		// If there's no attackDataFragment
+		if (rollDataFragment == null) {
+			// Find it, if it exists, using the support fragment manager
+			FragmentManager fm = getSupportFragmentManager();
+			rollDataFragment = (RollDataFragment) fm.findFragmentByTag("rollData");
+			
+			// If it still does not exist, create a new one.
+			if (rollDataFragment == null) {
+				rollDataFragment = new RollDataFragment();
+				FragmentTransaction ft = fm.beginTransaction();
+				ft.add(rollDataFragment, "rollData");
+				ft.commit();
+			}
+		}
+		return rollDataFragment.getData();
+	}
+	
 	public AttackData getAttackData() {
 		// If there's no attackDataFragment
 		if (attackDataFragment == null) {
@@ -224,5 +214,24 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			default:
 				return super.onOptionsItemSelected(item);
 		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	public static String buildDiceResults(VoltResult vr, Context c) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(c.getString(R.string.black)).append(" ");
+		sb.append(vr.black.value);
+
+		sb.append(" ");
+
+		sb.append(c.getString(R.string.white)).append(" ");
+		sb.append(vr.white.value);
+
+		return sb.toString();
 	}
 }

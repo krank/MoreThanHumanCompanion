@@ -43,8 +43,8 @@
 		/>
 		
 		<include 
-			layout="@layout/template_result"
-			android:id="@+id/view_result"
+			layout="@layout/template_display_item"
+			android:id="@+id/display_result"
 		/>
 	</LinearLayout>
 
