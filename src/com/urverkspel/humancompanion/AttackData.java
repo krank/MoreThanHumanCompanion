@@ -158,7 +158,7 @@ public class AttackData {
 			// Armor
 			if (useArmor) {
 
-				if (hitResult.white.value < coverage) {
+				if (hitResult.white.value <= coverage) {
 					if (penetration < protectionMin) {
 						resultArmorEffect = ARMOR_COMPLETELY_PROTECTED;
 						effectiveDamage = 0;
