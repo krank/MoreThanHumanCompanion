@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScrollView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/scroller"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+>
+	<LinearLayout 
+	
+		android:orientation="vertical"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:animateLayoutChanges="true"
+	>
+		<LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+		>
+		<RadioGroup
+			android:id="@+id/radio_combat_type"
+			android:layout_width="0dp"
+			android:layout_weight="1"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+		>
+			<RadioButton 
+				android:id="@+id/radio_closecombat"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/close_combat"
+			/>
+			<RadioButton 
+				android:id="@+id/radio_rangedcombat"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:checked="true"
+				android:text="@string/ranged_combat"
+			/>	
+		
+		</RadioGroup>
+		
+		<View style="@style/VerticalDivider"/>
+		
+		<RadioGroup
+			android:id="@+id/radio_damage_type"
+			android:layout_width="0dp"
+			android:layout_weight="1"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+		>
+			<RadioButton 
+				android:id="@+id/radio_injury"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:checked="true"
+				android:text="@string/injury"
+			/>
+			<RadioButton 
+				android:id="@+id/radio_stun"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/stun"
+			/>	
+		
+		</RadioGroup>
+		</LinearLayout>
+		
+		<View style="@style/Divider"/>
+	
+		<!-- RKF/Attack sliderbar -->
+		<include 
+			layout="@layout/template_sliderbar"
+			android:id="@+id/slider_value"
+		/>
+	
+		<!-- Defense/range sliderbar -->
+		<include 
+			layout="@layout/template_sliderbar"
+			android:id="@+id/slider_threshold"
+		/>
+	
+		<!-- Damage sliderbar -->
+		<include 
+			layout="@layout/template_sliderbar"
+			android:id="@+id/slider_damage"
+		/>
+	</LinearLayout>
+</ScrollView>
