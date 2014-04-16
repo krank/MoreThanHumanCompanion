@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -69,10 +70,17 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		drawerLayout.setDrawerListener(actionBarDrawerToggle);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);
-		
+
 		actionBar = getActionBar();
-		
+
+		ContainerFragment fragment = new cFragmentStart();
+
 		super.onCreate(savedInstanceState);
+		
+		FragmentManager fragmentManager = getSupportFragmentManager();
+		fragmentManager.beginTransaction()
+				.replace(R.id.pager, fragment).commit();
+		
 	}
 
 	public RollData getRollData() {
@@ -81,7 +89,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			// Find it, if it exists, using the support fragment manager
 			FragmentManager fm = getSupportFragmentManager();
 			rollDataFragment = (RollDataFragment) fm.findFragmentByTag("rollData");
-			
+
 			// If it still does not exist, create a new one.
 			if (rollDataFragment == null) {
 				rollDataFragment = new RollDataFragment();
@@ -92,7 +100,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		}
 		return rollDataFragment.getData();
 	}
-	
+
 	public AttackData getAttackData() {
 		// If there's no attackDataFragment
 		if (attackDataFragment == null) {
@@ -116,11 +124,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	}
 
 	public void onTabUnselected(ActionBar.Tab tab, android.app.FragmentTransaction ft) {
-		
+
 	}
 
 	public void onTabReselected(ActionBar.Tab tab, android.app.FragmentTransaction ft) {
-		
+
 	}
 
 	private class SlideMenuClickListener implements ListView.OnItemClickListener {
@@ -132,10 +140,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	}
 
 	private void displayView(int menuIndex) {
-		
+
 		String[] tabs = {};
 		ContainerFragment fragment = null;
-		
+
 		switch (menuIndex) {
 			case 0:
 				actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
@@ -153,12 +161,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			default:
 				break;
 		}
-		
+
 		// Replace the main container fragment
 		if (fragment != null) {
-			
+
 			currentContainerFragment = fragment;
-			
+
 			FragmentManager fragmentManager = getSupportFragmentManager();
 			fragmentManager.beginTransaction()
 					.replace(R.id.pager, fragment).commit();
@@ -167,8 +175,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			// error in creating fragment
 			Log.e("MainActivity", "Error in creating fragment");
 		}
-		
-		
+
 		// Tabs setup
 		actionBar.removeAllTabs();
 		for (String tab_name : tabs) {
@@ -215,13 +222,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 				return super.onOptionsItemSelected(item);
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
+
 	public static String buildDiceResults(VoltResult vr, Context c) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(c.getString(R.string.black)).append(" ");

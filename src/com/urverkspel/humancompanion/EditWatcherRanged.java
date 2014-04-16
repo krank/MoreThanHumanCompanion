@@ -2,18 +2,15 @@ package com.urverkspel.humancompanion;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.widget.EditText;
 
 public class EditWatcherRanged implements TextWatcher {
 
 	private final RangeSeekBar seekBar;
-	private final EditText editText;
 
 	private final Boolean watchMax;
 
-	public EditWatcherRanged(RangeSeekBar seekBar, EditText editText, Boolean watchMax) {
+	public EditWatcherRanged(RangeSeekBar seekBar, Boolean watchMax) {
 		this.seekBar = seekBar;
-		this.editText = editText;
 		this.watchMax = watchMax;
 	}
 

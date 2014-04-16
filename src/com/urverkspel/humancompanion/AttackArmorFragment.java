@@ -166,13 +166,13 @@ public class AttackArmorFragment extends Fragment {
 		});
 
 		// SPECIAL PROTECTION SEEKBAR THINGS
-		protectionMinEditText.addTextChangedListener(new EditWatcherRanged(protectionSeekBar, protectionMinEditText, false) {
+		protectionMinEditText.addTextChangedListener(new EditWatcherRanged(protectionSeekBar, false) {
 			@Override
 			public void saveData(int i) {
 				sharedAttackData.protectionMin = i;
 			}
 		});
-		protectionMaxEditText.addTextChangedListener(new EditWatcherRanged(protectionSeekBar, protectionMaxEditText, true) {
+		protectionMaxEditText.addTextChangedListener(new EditWatcherRanged(protectionSeekBar, true) {
 			@Override
 			public void saveData(int i) {
 				sharedAttackData.protectionMax = i;
