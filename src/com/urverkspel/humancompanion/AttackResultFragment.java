@@ -157,30 +157,52 @@ public class AttackResultFragment extends Fragment {
 
 				TextView armorHeader = (TextView) armorDisplayLayout.findViewById(R.id.display_header);
 				TextView armorText = (TextView) armorDisplayLayout.findViewById(R.id.display_text);
+				TextView armorIcon = (TextView) armorDisplayLayout.findViewById(R.id.display_icon);
 
+				
+				int headerStringId;
+				int textStringId;
+				int iconImageId;
+				
 				switch (sharedAttackData.resultArmorEffect) {
-					case AttackData.ARMOR_OFF:
-						armorHeader.setText(getActivity().getString(R.string.armor_effect_header_off));
-						armorText.setText(getActivity().getString(R.string.armor_effect_desc_off));
-						break;
 					case AttackData.ARMOR_NOT_COVERED:
-						armorHeader.setText(getActivity().getString(R.string.armor_effect_header_not_covered));
-						armorText.setText(getActivity().getString(R.string.armor_effect_desc_not_covered));
+						headerStringId = R.string.armor_effect_header_not_covered;
+						textStringId = R.string.armor_effect_desc_not_covered;
+						iconImageId = R.drawable.armor_bypassed;
 						break;
 					case AttackData.ARMOR_FULLY_PENETRATED:
-						armorHeader.setText(getActivity().getString(R.string.armor_effect_header_fully_penetrated));
-						armorText.setText(getActivity().getString(R.string.armor_effect_desc_fully_penetrated));
+						headerStringId = R.string.armor_effect_header_fully_penetrated;
+						textStringId = R.string.armor_effect_desc_fully_penetrated;
+						iconImageId = R.drawable.armor_penetrated;
 						break;
 					case AttackData.ARMOR_PARTIALLY_PENETRATED:
-						armorHeader.setText(getActivity().getString(R.string.armor_effect_header_partially_penetrated));
-						armorText.setText(getActivity().getString(R.string.armor_effect_desc_partially_penetrated));
+						headerStringId = R.string.armor_effect_header_partially_penetrated;
+						textStringId = R.string.armor_effect_desc_partially_penetrated;
+						iconImageId = R.drawable.armor_softened;
 						break;
 					case AttackData.ARMOR_COMPLETELY_PROTECTED:
-						armorHeader.setText(getActivity().getString(R.string.armor_effect_header_completely_protected));
-						armorText.setText(getActivity().getString(R.string.armor_effect_desc_completely_protected));
+						headerStringId = R.string.armor_effect_header_completely_protected;
+						textStringId = R.string.armor_effect_desc_completely_protected;
+						iconImageId = R.drawable.armor_stopped;
+						break;
+					default:
+						headerStringId = R.string.armor_effect_header_off;
+						textStringId = R.string.armor_effect_desc_off;
+						iconImageId = R.drawable.black_bkg;
 						break;
 				}
+				
+				armorHeader.setText(getActivity().getString(headerStringId));
+				armorText.setText(getActivity().getString(textStringId));
+				armorIcon.setBackgroundResource(iconImageId);
+				
+				
+				
 				armorDisplayLayout.setVisibility(View.VISIBLE);
+				
+				
+				
+				
 			}
 
 			// DAMAGE DISPLAY
@@ -203,11 +225,13 @@ public class AttackResultFragment extends Fragment {
 
 		// Header & icon
 		if (result.successful) {
-			icon.setBackgroundResource(R.drawable.green_bkg);
+			
 			if (isStun) {
 				header.setText(result.result + " " + getActivity().getString(R.string.stun));
+				icon.setBackgroundResource(R.drawable.blue_bkg);
 			} else {
 				header.setText(result.result + " " + getActivity().getString(R.string.injury));
+				icon.setBackgroundResource(R.drawable.green_bkg);
 			}
 		} else {
 			header.setText(getActivity().getString(R.string.no_damage));

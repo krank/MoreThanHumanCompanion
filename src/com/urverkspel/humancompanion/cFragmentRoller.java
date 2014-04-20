@@ -27,6 +27,9 @@ public class cFragmentRoller extends ContainerFragment {
 	private EditText valueEditText;
 	private EditText thresholdEditText;
 	
+	private TextView valueHeader;
+	private TextView thresholdHeader;
+	
 	private Button rollButton;
 
 	// Data reference
@@ -73,6 +76,9 @@ public class cFragmentRoller extends ContainerFragment {
 		setListeners();
 		setFromData();
 		
+		valueHeader.setText(getString(R.string.value));
+		thresholdHeader.setText(getString(R.string.threshold));
+		
 		prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
 		return rootView;
@@ -91,6 +97,10 @@ public class cFragmentRoller extends ContainerFragment {
 		// Seekbar-editTexts
 		valueEditText = (EditText) valueLayout.findViewById(R.id.textbox);
 		thresholdEditText = (EditText) thresholdLayout.findViewById(R.id.textbox);
+		
+		// Headers
+		valueHeader = (TextView) valueLayout.findViewById(R.id.header);
+		thresholdHeader = (TextView) thresholdLayout.findViewById(R.id.header);
 		
 		// Rolling button
 		rollButton = (Button) rootView.findViewById(R.id.roller_button);
