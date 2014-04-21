@@ -205,12 +205,14 @@ public class AttackResultFragment extends Fragment {
 				
 			}
 
-			// DAMAGE DISPLAY
-			this.buildDamageDisplay(damageDisplayLayout, sharedAttackData.damageResult, sharedAttackData.resultIsStun);
+			if (AttackData.ARMOR_COMPLETELY_PROTECTED != sharedAttackData.resultArmorEffect || !sharedAttackData.hitResult.successful) {
+				// DAMAGE DISPLAY
+				this.buildDamageDisplay(damageDisplayLayout, sharedAttackData.damageResult, sharedAttackData.resultIsStun);
 
-			// EXTRA DAMAGE
-			if (sharedAttackData.extraDamageResult != null) {
-				this.buildDamageDisplay(extraDamageDisplayLayout, sharedAttackData.extraDamageResult, false);
+				// EXTRA DAMAGE
+				if (sharedAttackData.extraDamageResult != null) {
+					this.buildDamageDisplay(extraDamageDisplayLayout, sharedAttackData.extraDamageResult, false);
+				}
 			}
 		}
 	}
